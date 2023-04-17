@@ -9,6 +9,11 @@ module exe(
     input wire reg_we_i,
     input wire[`RADDR_WIDTH-1:0] reg_waddr_i,
     input wire[`RDATA_WIDTH-1:0] inst_i,
+    //mem output
+    output reg mem_we_o,
+    output reg[`ADDR_WIDTH-1:0] mem_addr_o,
+    output reg[`DATA_WIDTH-1:0] mem_data_o,
+    output reg[3:0] mem_op_o, //LB,LH,LW,LBU, LHU, SB, SH, SW
     //to exe_mem
     output reg[`RADDR_WIDTH-1:0] reg_waddr_o,
     output reg reg_we_o,
@@ -21,10 +26,8 @@ module exe(
     wire[4:0] shamt = inst_i[24:20];
     reg[`RDATA_WIDTH-1:0] r_reg_wdata_o;
     reg[`RDATA_WIDTH-1:0] s_l_reg_wdata_o;
-    reg[`ADDR_WIDTH-1:0] mem_addr_o;
-    reg[`DATA_WIDTH-1:0] mem_data_o;
-    reg mem_we_o;
-    reg[3:0] mem_op_o;
+    reg r_reg_we_o;
+    reg s_l_reg_we_o;
 
     exe_type_r exe_type_r0(
         .rst_i(rst_i),
@@ -41,7 +44,7 @@ module exe(
         .op1_i(op1_i),
         .op2_i(op2_i),
         .reg_wdata_o(s_l_reg_wdata_o),
-        .reg_we_o(r_reg_we_o),
+        .reg_we_o(s_l_reg_we_o),
         .mem_addr_o(mem_addr_o),
         .mem_data_o(mem_data_o),
         .mem_we_o(mem_we_o),
@@ -53,6 +56,10 @@ module exe(
             reg_waddr_o = `ZERO_REG;
             reg_wdata_o = `ZERO;
             reg_we_o = `WRITE_DISABLE;
+            mem_addr_o = `ZERO_REG;
+            mem_data_o = `ZERO;
+            mem_we_o = `WRITE_DISABLE;
+            mem_op_o = `MEM_OP_NONE;
         end else begin
             reg_we_o = reg_we_i;
             case (opcode)
@@ -117,10 +124,19 @@ module exe(
                     reg_wdata_o = op1_i+op2_i;
                     reg_we_o = reg_we_i;
                 end
+                `INST_TYPE_S, `INST_TYPE_L:begin //type s and l
+                    reg_waddr_o = reg_waddr_i;
+                    reg_wdata_o = s_l_reg_wdata_o;
+                    reg_we_o = s_l_reg_we_o;
+                end
                 default:begin
                         reg_waddr_o = `ZERO_REG;
                         reg_wdata_o = `ZERO;
                         reg_we_o = `WRITE_DISABLE;
+                        mem_addr_o = `ZERO_REG;
+                        mem_data_o = `ZERO;
+                        mem_we_o = `WRITE_DISABLE;
+                        mem_op_o = `MEM_OP_NONE;
                 end
             endcase
         end //if

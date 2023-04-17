@@ -36,7 +36,6 @@ module id_type_r(
             reg2_re_o = `READ_ENABLE;
             op1_o = reg1_rdata_i;
             op2_o = reg2_rdata_i;
-            $display("id_type_r, isType = %d", isType_r);
         end else begin
             reg_we_o = `WRITE_DISABLE;
             reg_waddr_o = `ZERO_REG;

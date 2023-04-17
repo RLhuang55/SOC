@@ -43,28 +43,37 @@ wire[`DATA_WIDTH-1:0] id_exe_inst_o;
 wire[`RADDR_WIDTH-1:0] exe_reg_waddr_o;
 wire exe_reg_we_o;
 wire[`RDATA_WIDTH-1:0] exe_reg_wdata_o;
-
+wire exe_mem_we_o;
+wire[`ADDR_WIDTH-1:0] exe_mem_addr_o;
+wire[`DATA_WIDTH-1:0] exe_mem_data_o;
+wire[3:0] exe_mem_op_o;
 //exe_mem
 wire[`RADDR_WIDTH-1:0] exe_mem_reg_waddr_o;
 wire exe_mem_reg_we_o;
 wire[`RDATA_WIDTH-1:0] exe_mem_reg_wdata_o;
 
-
+wire exe_mem_mem_we_o;
+wire[`ADDR_WIDTH-1:0] exe_mem_mem_addr_o;
+wire[`DATA_WIDTH-1:0] exe_mem_mem_data_o;
+wire[3:0] exe_mem_mem_op_o;
 //mem
 wire[`RADDR_WIDTH-1:0] mem_reg_waddr_o;
 wire mem_reg_we_o;
 wire[`RDATA_WIDTH-1:0] mem_reg_wdata_o;
-
+wire mem_mem_we_o;
+wire[`ADDR_WIDTH-1:0] mem_mem_addr_o;
+wire[`DATA_WIDTH-1:0] mem_mem_data_o;
+wire[3:0] mem_mem_op_o;
 //mem_wb
 wire[`RADDR_WIDTH-1:0] mem_wb_reg_waddr_o;
 wire mem_wb_reg_we_o;
 wire[`RDATA_WIDTH-1:0] mem_wb_reg_wdata_o;
 //from mem to ram
-wire[`ADDR_WIDTH-1:0] ram_addr_o;
-wire ram_w_request_o;
-wire[`DATA_WIDTH-1:0] ram_data_o;
-//from ram to mem
-wire[`DATA_WIDTH-1:0] ram_data_i;
+wire[`ADDR_WIDTH-1:0] mem_ram_addr_o;
+wire mem_ram_w_request_o;
+wire[`DATA_WIDTH-1:0] mem_ram_data_o;
+// from ram to mem
+wire[`DATA_WIDTH-1:0] mem_ram_data_i;
 pc_reg pc_reg0(
     .rst_i(rst_i),
     .clk_i(clk_i),
@@ -169,9 +178,6 @@ id_exe id_exe0(
     .inst_o(id_exe_inst_o)
 );
 
-
-
-
 //EXE
 exe exe0(
     .rst_i(rst_i),
@@ -185,7 +191,12 @@ exe exe0(
     //to exe_mem
     .reg_waddr_o(exe_reg_waddr_o),
     .reg_we_o(exe_reg_we_o),
-    .reg_wdata_o(exe_reg_wdata_o)
+    .reg_wdata_o(exe_reg_wdata_o),
+    //mem info from exe_s_l
+    .mem_we_o(exe_mem_we_o),
+    .mem_addr_o(exe_mem_addr_o),
+    .mem_data_o(exe_mem_data_o),
+    .mem_op_o(exe_mem_op_o)
 );
 
 //exe_mem
@@ -196,11 +207,18 @@ exe_mem exe_mem0(
     .reg_waddr_i(exe_reg_waddr_o),
     .reg_we_i(exe_reg_we_o),
     .reg_wdata_i(exe_reg_wdata_o),
-
+    .mem_we_i(exe_mem_we_o),
+    .mem_addr_i(exe_mem_addr_o),
+    .mem_data_i(exe_mem_data_o),
+    .mem_op_i(exe_mem_op_o),
     //to mem
     .reg_waddr_o(exe_mem_reg_waddr_o),
     .reg_we_o(exe_mem_reg_we_o),
-    .reg_wdata_o(exe_mem_reg_wdata_o)
+    .reg_wdata_o(exe_mem_reg_wdata_o),
+    .mem_we_o(exe_mem_mem_we_o),
+    .mem_addr_o(exe_mem_mem_addr_o),
+    .mem_data_o(exe_mem_mem_data_o),
+    .mem_op_o(exe_mem_mem_op_o)
 );
     //mem
 mem mem0(
@@ -210,23 +228,32 @@ mem mem0(
     .reg_we_i(exe_mem_reg_we_o),
     .reg_wdata_i(exe_mem_reg_wdata_o),
     //from ram
-    .ram_data_i(ram_data_i),
+    .ram_data_i(mem_ram_data_i),
+    // from exe.v, exe_mem.v, mem.v 需要的連線
+    .mem_we_i(exe_mem_mem_we_o),
+    .mem_addr_i(exe_mem_mem_addr_o),
+    .mem_data_i(exe_mem_mem_data_o),
+    .mem_op_i(exe_mem_mem_op_o),
+    .mem_we_o(mem_mem_we_o),
+    .mem_addr_o(mem_mem_addr_o),
+    .mem_data_o(mem_mem_data_o),
+    .mem_op_o(mem_mem_op_o),
+    // to ram
+    .ram_addr_o(mem_ram_addr_o),
+    .ram_w_request_o(mem_ram_w_request_o),
+    .ram_data_o(mem_ram_data_o),
     //to mem_wb
     .reg_waddr_o(mem_reg_waddr_o),
     .reg_we_o(mem_reg_we_o),
-    .reg_wdata_o(mem_reg_wdata_o),
-    //to ram
-    .ram_addr_o(ram_addr_o),
-    .ram_w_request_o(ram_w_request_o),
-    .ram_data_o(ram_data_o)
+    .reg_wdata_o(mem_reg_wdata_o)
 );
 ram ram0(
         .rst_i(rst_i),
         .clk_i(clk_i),
-        .addr_i(ram_addr_o),
-        .we_i(ram_w_request_o),
-        .data_i(ram_data_o),
-        .data_o(ram_data_i)
+        .addr_i(mem_ram_addr_o),
+        .we_i(mem_ram_w_request_o),
+        .data_i(mem_ram_data_o),
+        .data_o(mem_ram_data_i)
     );
 //mem_wb
 mem_wb mem_wb0(

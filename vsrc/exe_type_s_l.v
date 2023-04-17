@@ -29,7 +29,7 @@ module exe_type_s_l(
                 mem_addr_o = `ZERO;
                 mem_data_o = `ZERO;
                 mem_we_o = `WRITE_DISABLE;
-                mem_op_o = `MEM_NOP;    
+                mem_op_o = `MEM_OP_NONE;   
         end else begin
             case (opcode)
             `INST_TYPE_S:begin
@@ -43,7 +43,7 @@ module exe_type_s_l(
                     mem_op_o = `SB;
                 end
                 default:begin
-                    mem_op_o = `MEM_NOP;
+                    mem_op_o = `MEM_OP_NONE;
                 end
                 endcase
             end
@@ -58,7 +58,7 @@ module exe_type_s_l(
                     mem_op_o = `LB;
                 end
                 default:begin
-                    mem_op_o = `MEM_NOP;
+                    mem_op_o = `MEM_OP_NONE;
                 end
                 endcase
             end
@@ -68,7 +68,7 @@ module exe_type_s_l(
                 mem_addr_o = `ZERO;
                 mem_data_o = `ZERO;
                 mem_we_o = `WRITE_DISABLE;
-                mem_op_o = `MEM_NOP;    
+                mem_op_o = `MEM_OP_NONE;    
             end
             endcase
         end //if

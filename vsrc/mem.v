@@ -31,14 +31,6 @@ module mem(
     output reg[`RDATA_WIDTH-1:0] reg_wdata_o
 );
     reg[2:0] ram_addr_offset = mem_op_i[2:0];
-    ram ram0(
-        .rst_i(rst_i),
-        .clk_i(clk_i),
-        .addr_i(ram_addr_o),
-        .we_i(ram_w_request_o),
-        .data_i(ram_data_o),
-        .data_o(ram_data_i)
-    );
     always @(*) begin
         if (rst_i == 1'b1) begin
             reg_waddr_o = `ZERO_REG;

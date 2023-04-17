@@ -8,6 +8,16 @@ module exe_mem(
     input wire[`RADDR_WIDTH-1:0] reg_waddr_i,
     input wire reg_we_i,
     input wire[`RDATA_WIDTH-1:0] reg_wdata_i,
+    //mem input & output
+    input wire mem_we_i,
+    input wire[`ADDR_WIDTH-1:0] mem_addr_i,
+    input wire[`DATA_WIDTH-1:0] mem_data_i,
+    input wire[3:0] mem_op_i,  //LB,LH,LW,LBU, LHU, SB, SH, SW, NONE
+
+    output reg mem_we_o,
+    output reg[`ADDR_WIDTH-1:0] mem_addr_o,
+    output reg[`DATA_WIDTH-1:0] mem_data_o,
+    output reg[3:0] mem_op_o, //LB,LH,LW,LBU, LHU, SB, SH, SW
     //to mem
     
     output reg[`RADDR_WIDTH-1:0] reg_waddr_o,
@@ -20,10 +30,18 @@ module exe_mem(
             reg_waddr_o <= `ZERO_REG;
             reg_we_o <= `WRITE_ENABLE;
             reg_wdata_o <= `ZERO;
+            mem_addr_o <= `ZERO_REG;
+            mem_data_o <= `ZERO;
+            mem_we_o <= `WRITE_DISABLE;
+            mem_op_o <= `MEM_OP_NONE;
         end else begin            
             reg_waddr_o <= reg_waddr_i;
             reg_we_o <= reg_we_i;
             reg_wdata_o <= reg_wdata_i;
+            mem_addr_o <= mem_addr_i;
+            mem_data_o <= mem_data_i;
+            mem_we_o <= mem_we_i;
+            mem_op_o <= mem_op_i;
         end //if
     end //always
 endmodule
