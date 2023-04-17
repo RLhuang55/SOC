@@ -30,7 +30,8 @@ module mem(
     output reg reg_we_o,
     output reg[`RDATA_WIDTH-1:0] reg_wdata_o
 );
-    reg[2:0] ram_addr_offset = mem_op_i[2:0];
+    wire[1:0]ram_addr_offset;
+    assign ram_addr_offset = mem_addr_i[1:0]&2'b11;
     always @(*) begin
         if (rst_i == 1'b1) begin
             reg_waddr_o = `ZERO_REG;

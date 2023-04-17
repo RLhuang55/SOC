@@ -45,14 +45,11 @@ VL_INLINE_OPT void Vtest_top_test_top::_sequent__TOP__test_top__1(Vtest_top__Sym
         = ((IData)(vlTOPp->rst_i) | (IData)(vlSymsp->TOP__test_top.__PVT__exe_reg_we_o));
     if (vlTOPp->rst_i) {
         vlSymsp->TOP__test_top.__PVT__exe_mem_reg_wdata_o = 0U;
-        vlSymsp->TOP__test_top.__PVT__exe_mem_mem_addr_o = 0U;
         vlSymsp->TOP__test_top.__PVT__id_exe_op2_o = 0U;
         vlSymsp->TOP__test_top.__PVT__id_exe_op1_o = 0U;
     } else {
         vlSymsp->TOP__test_top.__PVT__exe_mem_reg_wdata_o 
             = vlSymsp->TOP__test_top.__PVT__exe_reg_wdata_o;
-        vlSymsp->TOP__test_top.__PVT__exe_mem_mem_addr_o 
-            = vlSymsp->TOP__test_top.__PVT__exe_mem_addr_o;
         vlSymsp->TOP__test_top.__PVT__id_exe_op2_o 
             = vlSymsp->TOP__test_top.__PVT__id_op2_o;
         vlSymsp->TOP__test_top.__PVT__id_exe_op1_o 
@@ -67,10 +64,13 @@ VL_INLINE_OPT void Vtest_top_test_top::_sequent__TOP__test_top__1(Vtest_top__Sym
                                               >> 2U));
     }
     if (vlTOPp->rst_i) {
+        vlSymsp->TOP__test_top.__PVT__exe_mem_mem_addr_o = 0U;
         vlSymsp->TOP__test_top.__PVT__exe_mem_mem_op_o = 0U;
         vlSymsp->TOP__test_top.__PVT__id_exe_inst_o = 0x13U;
         vlSymsp->TOP__test_top.__PVT__if_id_inst_o = 0x13U;
     } else {
+        vlSymsp->TOP__test_top.__PVT__exe_mem_mem_addr_o 
+            = vlSymsp->TOP__test_top.__PVT__exe_mem_addr_o;
         vlSymsp->TOP__test_top.__PVT__exe_mem_mem_op_o 
             = vlSymsp->TOP__test_top.__PVT__exe_mem_op_o;
         vlSymsp->TOP__test_top.__PVT__id_exe_inst_o 
@@ -1695,15 +1695,15 @@ VL_INLINE_OPT void Vtest_top_test_top::_combo__TOP__test_top__5(Vtest_top__Syms*
         if ((9U != (IData)(vlSymsp->TOP__test_top.__PVT__exe_mem_mem_op_o))) {
             vlSymsp->TOP__test_top.__PVT__mem_ram_data_o 
                 = ((1U == (IData)(vlSymsp->TOP__test_top.__PVT__exe_mem_mem_op_o))
-                    ? ((0U == (7U & (IData)(vlSymsp->TOP__test_top.__PVT__exe_mem_mem_op_o)))
+                    ? ((0U == (3U & vlSymsp->TOP__test_top.__PVT__exe_mem_mem_addr_o))
                         ? ((0xffffff00U & vlSymsp->TOP__test_top.__PVT__mem_ram_data_i) 
                            | (0xffU & vlSymsp->TOP__test_top.__PVT__exe_mem_mem_data_o))
-                        : ((1U == (7U & (IData)(vlSymsp->TOP__test_top.__PVT__exe_mem_mem_op_o)))
+                        : ((1U == (3U & vlSymsp->TOP__test_top.__PVT__exe_mem_mem_addr_o))
                             ? ((0xffff0000U & vlSymsp->TOP__test_top.__PVT__mem_ram_data_i) 
                                | ((0xff00U & (vlSymsp->TOP__test_top.__PVT__exe_mem_mem_data_o 
                                               << 8U)) 
                                   | (0xffU & vlSymsp->TOP__test_top.__PVT__mem_ram_data_i)))
-                            : ((2U == (7U & (IData)(vlSymsp->TOP__test_top.__PVT__exe_mem_mem_op_o)))
+                            : ((2U == (3U & vlSymsp->TOP__test_top.__PVT__exe_mem_mem_addr_o))
                                 ? ((0xff000000U & vlSymsp->TOP__test_top.__PVT__mem_ram_data_i) 
                                    | ((0xff0000U & 
                                        (vlSymsp->TOP__test_top.__PVT__exe_mem_mem_data_o 
@@ -1720,13 +1720,13 @@ VL_INLINE_OPT void Vtest_top_test_top::_combo__TOP__test_top__5(Vtest_top__Syms*
     } else {
         if ((9U == (IData)(vlSymsp->TOP__test_top.__PVT__exe_mem_mem_op_o))) {
             vlSymsp->TOP__test_top.__PVT__mem_reg_wdata_o 
-                = ((0U == (7U & (IData)(vlSymsp->TOP__test_top.__PVT__exe_mem_mem_op_o)))
+                = ((0U == (3U & vlSymsp->TOP__test_top.__PVT__exe_mem_mem_addr_o))
                     ? ((0xffffff00U & ((- (IData)((1U 
                                                    & (vlSymsp->TOP__test_top.__PVT__mem_ram_data_i 
                                                       >> 7U)))) 
                                        << 8U)) | (0xffU 
                                                   & vlSymsp->TOP__test_top.__PVT__mem_ram_data_i))
-                    : ((1U == (7U & (IData)(vlSymsp->TOP__test_top.__PVT__exe_mem_mem_op_o)))
+                    : ((1U == (3U & vlSymsp->TOP__test_top.__PVT__exe_mem_mem_addr_o))
                         ? ((0xffffff00U & ((- (IData)(
                                                       (1U 
                                                        & (vlSymsp->TOP__test_top.__PVT__mem_ram_data_i 
@@ -1736,8 +1736,8 @@ VL_INLINE_OPT void Vtest_top_test_top::_combo__TOP__test_top__5(Vtest_top__Syms*
                                        >> 8U))) : (
                                                    (2U 
                                                     == 
-                                                    (7U 
-                                                     & (IData)(vlSymsp->TOP__test_top.__PVT__exe_mem_mem_op_o)))
+                                                    (3U 
+                                                     & vlSymsp->TOP__test_top.__PVT__exe_mem_mem_addr_o))
                                                     ? 
                                                    ((0xffffff00U 
                                                      & ((- (IData)(

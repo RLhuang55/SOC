@@ -113,7 +113,7 @@ void Vtest_top::traceChgSub0(void* userp, VerilatedVcd* tracep) {
                                           | (0x1fU 
                                              & (vlSymsp->TOP__test_top.__PVT__id_exe_inst_o 
                                                 >> 7U))))),32);
-            tracep->chgCData(oldp+41,((7U & (IData)(vlSymsp->TOP__test_top.__PVT__exe_mem_mem_op_o))),3);
+            tracep->chgCData(oldp+41,((3U & vlSymsp->TOP__test_top.__PVT__exe_mem_mem_addr_o)),2);
             tracep->chgIData(oldp+42,((0x1ffffcU & vlSymsp->TOP__test_top.__PVT__pc_wire)),21);
             tracep->chgIData(oldp+43,(vlSymsp->TOP__test_top__regfile0.__PVT__regs[0]),32);
             tracep->chgIData(oldp+44,(vlSymsp->TOP__test_top__regfile0.__PVT__regs[1]),32);

@@ -1391,15 +1391,15 @@ void Vtest_top_test_top::_settle__TOP__test_top__3(Vtest_top__Syms* __restrict v
         if ((9U != (IData)(vlSymsp->TOP__test_top.__PVT__exe_mem_mem_op_o))) {
             vlSymsp->TOP__test_top.__PVT__mem_ram_data_o 
                 = ((1U == (IData)(vlSymsp->TOP__test_top.__PVT__exe_mem_mem_op_o))
-                    ? ((0U == (7U & (IData)(vlSymsp->TOP__test_top.__PVT__exe_mem_mem_op_o)))
+                    ? ((0U == (3U & vlSymsp->TOP__test_top.__PVT__exe_mem_mem_addr_o))
                         ? ((0xffffff00U & vlSymsp->TOP__test_top.__PVT__mem_ram_data_i) 
                            | (0xffU & vlSymsp->TOP__test_top.__PVT__exe_mem_mem_data_o))
-                        : ((1U == (7U & (IData)(vlSymsp->TOP__test_top.__PVT__exe_mem_mem_op_o)))
+                        : ((1U == (3U & vlSymsp->TOP__test_top.__PVT__exe_mem_mem_addr_o))
                             ? ((0xffff0000U & vlSymsp->TOP__test_top.__PVT__mem_ram_data_i) 
                                | ((0xff00U & (vlSymsp->TOP__test_top.__PVT__exe_mem_mem_data_o 
                                               << 8U)) 
                                   | (0xffU & vlSymsp->TOP__test_top.__PVT__mem_ram_data_i)))
-                            : ((2U == (7U & (IData)(vlSymsp->TOP__test_top.__PVT__exe_mem_mem_op_o)))
+                            : ((2U == (3U & vlSymsp->TOP__test_top.__PVT__exe_mem_mem_addr_o))
                                 ? ((0xff000000U & vlSymsp->TOP__test_top.__PVT__mem_ram_data_i) 
                                    | ((0xff0000U & 
                                        (vlSymsp->TOP__test_top.__PVT__exe_mem_mem_data_o 
@@ -1416,13 +1416,13 @@ void Vtest_top_test_top::_settle__TOP__test_top__3(Vtest_top__Syms* __restrict v
     } else {
         if ((9U == (IData)(vlSymsp->TOP__test_top.__PVT__exe_mem_mem_op_o))) {
             vlSymsp->TOP__test_top.__PVT__mem_reg_wdata_o 
-                = ((0U == (7U & (IData)(vlSymsp->TOP__test_top.__PVT__exe_mem_mem_op_o)))
+                = ((0U == (3U & vlSymsp->TOP__test_top.__PVT__exe_mem_mem_addr_o))
                     ? ((0xffffff00U & ((- (IData)((1U 
                                                    & (vlSymsp->TOP__test_top.__PVT__mem_ram_data_i 
                                                       >> 7U)))) 
                                        << 8U)) | (0xffU 
                                                   & vlSymsp->TOP__test_top.__PVT__mem_ram_data_i))
-                    : ((1U == (7U & (IData)(vlSymsp->TOP__test_top.__PVT__exe_mem_mem_op_o)))
+                    : ((1U == (3U & vlSymsp->TOP__test_top.__PVT__exe_mem_mem_addr_o))
                         ? ((0xffffff00U & ((- (IData)(
                                                       (1U 
                                                        & (vlSymsp->TOP__test_top.__PVT__mem_ram_data_i 
@@ -1432,8 +1432,8 @@ void Vtest_top_test_top::_settle__TOP__test_top__3(Vtest_top__Syms* __restrict v
                                        >> 8U))) : (
                                                    (2U 
                                                     == 
-                                                    (7U 
-                                                     & (IData)(vlSymsp->TOP__test_top.__PVT__exe_mem_mem_op_o)))
+                                                    (3U 
+                                                     & vlSymsp->TOP__test_top.__PVT__exe_mem_mem_addr_o))
                                                     ? 
                                                    ((0xffffff00U 
                                                      & ((- (IData)(

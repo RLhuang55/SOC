@@ -278,7 +278,7 @@ void Vtest_top::traceInitSub0(void* userp, VerilatedVcd* tracep) {
         tracep->declBus(c+94,"test_top mem0 reg_waddr_o", false,-1, 4,0);
         tracep->declBit(c+95,"test_top mem0 reg_we_o", false,-1);
         tracep->declBus(c+96,"test_top mem0 reg_wdata_o", false,-1, 31,0);
-        tracep->declBus(c+42,"test_top mem0 ram_addr_offset", false,-1, 2,0);
+        tracep->declBus(c+42,"test_top mem0 ram_addr_offset", false,-1, 1,0);
         tracep->declBit(c+116,"test_top ram0 clk_i", false,-1);
         tracep->declBit(c+115,"test_top ram0 rst_i", false,-1);
         tracep->declBit(c+98,"test_top ram0 we_i", false,-1);
@@ -421,7 +421,7 @@ void Vtest_top::traceFullSub0(void* userp, VerilatedVcd* tracep) {
                                                    | (0x1fU 
                                                       & (vlSymsp->TOP__test_top.__PVT__id_exe_inst_o 
                                                          >> 7U))))),32);
-        tracep->fullCData(oldp+42,((7U & (IData)(vlSymsp->TOP__test_top.__PVT__exe_mem_mem_op_o))),3);
+        tracep->fullCData(oldp+42,((3U & vlSymsp->TOP__test_top.__PVT__exe_mem_mem_addr_o)),2);
         tracep->fullIData(oldp+43,((0x1ffffcU & vlSymsp->TOP__test_top.__PVT__pc_wire)),21);
         tracep->fullIData(oldp+44,(vlSymsp->TOP__test_top__regfile0.__PVT__regs[0]),32);
         tracep->fullIData(oldp+45,(vlSymsp->TOP__test_top__regfile0.__PVT__regs[1]),32);
