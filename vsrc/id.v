@@ -22,6 +22,10 @@ module id(
     input wire[`RDATA_WIDTH-1:0] mem_reg_wdata_i,
     input wire mem_reg_we_i,
 
+    //from id_exe
+    input wire[`RADDR_WIDTH-1:0] exe_rd_i,
+    input wire pre_inst_is_load_i,
+    input wire[5:0]stall_i,
     /* for data hazard */
     // to regfile
     output reg[`RADDR_WIDTH-1:0] reg1_raddr_o,
@@ -34,8 +38,8 @@ module id(
     output reg[`RDATA_WIDTH-1:0] op1_o,
     output reg[`RDATA_WIDTH-1:0] op2_o,
     output reg reg_we_o,
-    output reg[`RADDR_WIDTH-1:0] reg_waddr_o
-
+    output reg[`RADDR_WIDTH-1:0] reg_waddr_o,
+    output reg stallreq_o
     
     );
 
@@ -63,6 +67,8 @@ module id(
     wire[4:0] rd = inst_i[11:7];
     wire[4:0] rs1 = inst_i[19:15];
     wire[4:0] rs2 = inst_i[24:20];
+    wire is_load_hazard;
+    assign is_load_hazard = (pre_inst_is_load_i==1'b1 && (rs1 == exe_rd_i || rs2==exe_rd_i));
     id_type_i inst_type_i(
         .inst_i(inst_i),
         .reg1_rdata_i(reg1_rdata_i),
@@ -90,6 +96,12 @@ module id(
         .reg_we_o(r_reg_we_o),
         .reg_waddr_o(r_reg_waddr_o)
      );
+    always@(*)begin
+        if (is_load_hazard)
+            stallreq_o = 1'b1;
+        else
+            stallreq_o = 1'b0;
+    end
     always @(*) begin
         if (rst_i == 1) begin
             inst_o = `NOP;

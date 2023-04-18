@@ -68,3 +68,5 @@
 `define MEM_NOP 4'b0000
 `define RAM_ADDR_WIDTH 21
 `define RAM_SIZE 32'h20000
+`define STOP 1
+`define NOSTOP 0

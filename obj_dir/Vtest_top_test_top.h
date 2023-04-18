@@ -55,6 +55,9 @@ VL_MODULE(Vtest_top_test_top) {
         CData/*4:0*/ __PVT__mem_wb_reg_waddr_o;
         CData/*0:0*/ __PVT__mem_wb_reg_we_o;
         CData/*0:0*/ __PVT__mem_ram_w_request_o;
+        CData/*4:0*/ __PVT__id_exe_rd_o;
+        CData/*5:0*/ __PVT__ctrl_stall_o;
+        CData/*0:0*/ __PVT__id_exe_inst_is_load_o;
         CData/*4:0*/ __PVT__id0__DOT__i_reg1_raddr_o;
         CData/*4:0*/ __PVT__id0__DOT__i_reg2_raddr_o;
         CData/*0:0*/ __PVT__id0__DOT__i_reg1_re_o;
@@ -92,11 +95,11 @@ VL_MODULE(Vtest_top_test_top) {
         IData/*31:0*/ __PVT__id0__DOT__op1_o_final;
         IData/*31:0*/ __PVT__id0__DOT__op2_o_final;
         IData/*31:0*/ __PVT__id0__DOT__i_op1_o;
+    };
+    struct {
         IData/*31:0*/ __PVT__id0__DOT__i_op2_o;
         IData/*31:0*/ __PVT__exe0__DOT__r_reg_wdata_o;
         IData/*31:0*/ __PVT__exe0__DOT__exe_type_r0__DOT__reg_waddr_i;
-    };
-    struct {
         IData/*31:0*/ __PVT__exe0__DOT__exe_type_r0__DOT__reg_waddr_o;
         IData/*31:0*/ __PVT__ram0__DOT__mem[131072];
     };

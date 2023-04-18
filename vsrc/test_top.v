@@ -74,15 +74,26 @@ wire mem_ram_w_request_o;
 wire[`DATA_WIDTH-1:0] mem_ram_data_o;
 // from ram to mem
 wire[`DATA_WIDTH-1:0] mem_ram_data_i;
+wire id_stallreq_o;
+wire[`RADDR_WIDTH-1:0] id_exe_rd_o;
+wire[5:0] ctrl_stall_o;
+wire id_exe_inst_is_load_o;
 pc_reg pc_reg0(
     .rst_i(rst_i),
     .clk_i(clk_i),
     //to if_id
     .pc_o(pc_wire),
     // to rom
-    .ce_o(ce_wire)
+    .ce_o(ce_wire),
+    //from ctrl
+    .stall_i(ctrl_stall_o)
 );
-   
+pipe_ctrl ctrl0(
+    .rst_i(rst_i),
+    //.stallreq_from_if_i(if_stallreq_o), 
+    .stallreq_from_id_i(id_stallreq_o), 
+    .stall_o(ctrl_stall_o)
+);   
 rom rom0(
     .addr_i(pc_wire),
     .clk_i(clk_i),
@@ -100,7 +111,9 @@ if_id if_id0(
     .inst_i(if_inst_o),
     //to id
     .inst_addr_o(if_id_inst_addr_o),
-    .inst_o(if_id_inst_o)
+    .inst_o(if_id_inst_o),
+    //from ctrl
+    .stall_i(ctrl_stall_o)
 );
 
 
@@ -137,7 +150,14 @@ id id0(
     .op1_o(id_op1_o),
     .op2_o(id_op2_o),
     .reg_we_o(id_reg_we_o),
-    .reg_waddr_o(id_reg_waddr_o)
+    .reg_waddr_o(id_reg_waddr_o),
+    //from id_exe    
+    .pre_inst_is_load_i(id_exe_inst_is_load_o),
+    .exe_rd_i(id_exe_rd_o),
+
+    //to ctrl
+    .stallreq_o(id_stallreq_o),
+    .stall_i(ctrl_stall_o)
 );
 
 //regfile
@@ -175,7 +195,13 @@ id_exe id_exe0(
     .op2_o(id_exe_op2_o),
     .reg_we_o(id_exe_reg_we_o),
     .reg_waddr_o(id_exe_reg_waddr_o),
-    .inst_o(id_exe_inst_o)
+    .inst_o(id_exe_inst_o),
+    //from ctrl
+    .stall_i(ctrl_stall_o),
+
+    //to id
+    .inst_is_load_o(id_exe_inst_is_load_o),
+    .rd_o(id_exe_rd_o)
 );
 
 //EXE
@@ -218,7 +244,9 @@ exe_mem exe_mem0(
     .mem_we_o(exe_mem_mem_we_o),
     .mem_addr_o(exe_mem_mem_addr_o),
     .mem_data_o(exe_mem_mem_data_o),
-    .mem_op_o(exe_mem_mem_op_o)
+    .mem_op_o(exe_mem_mem_op_o),
+    //from ctrl
+    .stall_i(ctrl_stall_o)
 );
     //mem
 mem mem0(
@@ -266,7 +294,9 @@ mem_wb mem_wb0(
     //to regfile
     .reg_waddr_o(mem_wb_reg_waddr_o),
     .reg_we_o(mem_wb_reg_we_o),
-    .reg_wdata_o(mem_wb_reg_wdata_o)
+    .reg_wdata_o(mem_wb_reg_wdata_o),
+    //from ctrl
+    .stall_i(ctrl_stall_o)
 );
 
 

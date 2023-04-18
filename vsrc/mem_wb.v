@@ -8,7 +8,7 @@ module mem_wb(
     input wire[`RADDR_WIDTH-1:0] reg_waddr_i,
     input wire reg_we_i,
     input wire[`RDATA_WIDTH-1:0] reg_wdata_i,
-    
+    input wire[5:0]stall_i,
     //to regfile
     output reg[`RADDR_WIDTH-1:0] reg_waddr_o,
     output reg reg_we_o,

@@ -140,6 +140,20 @@ void Vtest_top_test_top::_settle__TOP__test_top__3(Vtest_top__Syms* __restrict v
             }
         }
     }
+    vlSymsp->TOP__test_top.__PVT__ctrl_stall_o = ((IData)(vlTOPp->rst_i)
+                                                   ? 0U
+                                                   : 
+                                                  (((IData)(vlSymsp->TOP__test_top.__PVT__id_exe_inst_is_load_o) 
+                                                    & (((0x1fU 
+                                                         & (vlSymsp->TOP__test_top.__PVT__if_id_inst_o 
+                                                            >> 0xfU)) 
+                                                        == (IData)(vlSymsp->TOP__test_top.__PVT__id_exe_rd_o)) 
+                                                       | ((0x1fU 
+                                                           & (vlSymsp->TOP__test_top.__PVT__if_id_inst_o 
+                                                              >> 0x14U)) 
+                                                          == (IData)(vlSymsp->TOP__test_top.__PVT__id_exe_rd_o))))
+                                                    ? 7U
+                                                    : 0U));
     if (vlTOPp->rst_i) {
         vlSymsp->TOP__test_top.__PVT__exe_mem_data_o = 0U;
     } else {
@@ -1677,6 +1691,9 @@ void Vtest_top_test_top::_ctor_var_reset() {
     __PVT__mem_ram_w_request_o = VL_RAND_RESET_I(1);
     __PVT__mem_ram_data_o = VL_RAND_RESET_I(32);
     __PVT__mem_ram_data_i = VL_RAND_RESET_I(32);
+    __PVT__id_exe_rd_o = VL_RAND_RESET_I(5);
+    __PVT__ctrl_stall_o = VL_RAND_RESET_I(6);
+    __PVT__id_exe_inst_is_load_o = VL_RAND_RESET_I(1);
     __PVT__id0__DOT__op1_o_final = VL_RAND_RESET_I(32);
     __PVT__id0__DOT__op2_o_final = VL_RAND_RESET_I(32);
     __PVT__id0__DOT__i_reg1_raddr_o = VL_RAND_RESET_I(5);

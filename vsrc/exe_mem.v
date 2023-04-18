@@ -13,7 +13,7 @@ module exe_mem(
     input wire[`ADDR_WIDTH-1:0] mem_addr_i,
     input wire[`DATA_WIDTH-1:0] mem_data_i,
     input wire[3:0] mem_op_i,  //LB,LH,LW,LBU, LHU, SB, SH, SW, NONE
-
+    input wire[5:0]stall_i,
     output reg mem_we_o,
     output reg[`ADDR_WIDTH-1:0] mem_addr_o,
     output reg[`DATA_WIDTH-1:0] mem_data_o,
