@@ -62,6 +62,45 @@ module mem(
                     end
                     endcase      
                 end
+                `LBU: begin
+                    case(ram_addr_offset)
+                    2'b00:begin
+                        reg_wdata_o = {{24{0}}, ram_data_i[7:0]};
+                    end
+                    2'b01:begin
+                        reg_wdata_o = {{24{0}}, ram_data_i[15:8]};
+                    end
+                    2'b10:begin
+                        reg_wdata_o = {{24{0}}, ram_data_i[23:16]};
+                    end
+                    default:begin
+                        reg_wdata_o = {{24{0}}, ram_data_i[31:24]};
+                    end
+                    endcase      
+                end
+                `LH: begin
+                    case(ram_addr_offset)
+                    2'b00:begin
+                        reg_wdata_o = {{16{ram_data_i[15]}}, ram_data_i[15:0]};
+                    end
+                    default:begin
+                        reg_wdata_o = {{16{ram_data_i[31]}}, ram_data_i[31:16]};
+                    end
+                    endcase      
+                end
+                `LHU: begin
+                    case(ram_addr_offset)
+                    2'b00:begin
+                        reg_wdata_o = {{16{0}}, ram_data_i[15:0]};
+                    end
+                    default:begin
+                        reg_wdata_o = {{16{0}}, ram_data_i[31:16]};
+                    end
+                    endcase      
+                end
+                `LW: begin
+                    reg_wdata_o = {ram_data_i[31:0]};     
+                end
                 `SB: begin
                     case (ram_addr_offset)
                     2'b00: begin
@@ -77,6 +116,19 @@ module mem(
                         ram_data_o = {mem_data_i[7:0], ram_data_i[23:0]};
                     end
                     endcase
+                end
+                `SH: begin
+                    case (ram_addr_offset)
+                    2'b00: begin
+                        ram_data_o = {ram_data_i[31:16],mem_data_i[15:0]};
+                    end
+                    default: begin
+                        ram_data_o = {mem_data_i[31:16], ram_data_i[15:0]};
+                    end
+                    endcase
+                end
+                `SW: begin
+                    ram_data_o = {mem_data_i[31:0]};
                 end
                 default: begin
                     reg_wdata_o = reg_wdata_i;

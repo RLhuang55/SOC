@@ -39,12 +39,18 @@ module exe_type_s_l(
                 mem_data_o = op2_i;
                 mem_we_o = `WRITE_ENABLE;
                 case (funct3)
-                `INST_SB:begin
-                    mem_op_o = `SB;
-                end
-                default:begin
-                    mem_op_o = `MEM_NOP;
-                end
+                    `INST_SB:begin
+                        mem_op_o = `SB;
+                    end
+                    `INST_SH:begin
+                        mem_op_o = `SH;
+                    end
+                    `INST_SW:begin
+                        mem_op_o = `SW;
+                    end
+                    default:begin
+                        mem_op_o = `MEM_NOP;
+                    end
                 endcase
             end
             `INST_TYPE_L:begin
@@ -54,12 +60,24 @@ module exe_type_s_l(
                 mem_data_o = `ZERO;
                 mem_we_o = `WRITE_DISABLE;
                 case (funct3)
-                `INST_LB:begin
-                    mem_op_o = `LB;
-                end
-                default:begin
-                    mem_op_o = `MEM_NOP;
-                end
+                    `INST_LB:begin
+                        mem_op_o = `LB;
+                    end
+                    `INST_LH:begin
+                        mem_op_o = `LH;
+                    end
+                    `INST_LW:begin
+                        mem_op_o = `LW;
+                    end
+                    `INST_LBU:begin
+                        mem_op_o = `LBU;
+                    end
+                    `INST_LHU:begin
+                        mem_op_o = `LHU;
+                    end
+                    default:begin
+                        mem_op_o = `MEM_NOP;
+                    end
                 endcase
             end
             default:begin
