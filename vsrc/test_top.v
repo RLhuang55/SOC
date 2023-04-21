@@ -60,10 +60,10 @@ wire[3:0] exe_mem_mem_op_o;
 wire[`RADDR_WIDTH-1:0] mem_reg_waddr_o;
 wire mem_reg_we_o;
 wire[`RDATA_WIDTH-1:0] mem_reg_wdata_o;
-wire mem_mem_we_o;
-wire[`ADDR_WIDTH-1:0] mem_mem_addr_o;
-wire[`DATA_WIDTH-1:0] mem_mem_data_o;
-wire[3:0] mem_mem_op_o;
+// wire mem_mem_we_o;
+// wire[`ADDR_WIDTH-1:0] mem_mem_addr_o;
+// wire[`DATA_WIDTH-1:0] mem_mem_data_o;
+// wire[3:0] mem_mem_op_o;
 //mem_wb
 wire[`RADDR_WIDTH-1:0] mem_wb_reg_waddr_o;
 wire mem_wb_reg_we_o;
@@ -262,10 +262,10 @@ mem mem0(
     .mem_addr_i(exe_mem_mem_addr_o),
     .mem_data_i(exe_mem_mem_data_o),
     .mem_op_i(exe_mem_mem_op_o),
-    .mem_we_o(mem_mem_we_o),
-    .mem_addr_o(mem_mem_addr_o),
-    .mem_data_o(mem_mem_data_o),
-    .mem_op_o(mem_mem_op_o),
+    // .mem_we_o(mem_mem_we_o),
+    // .mem_addr_o(mem_mem_addr_o),
+    // .mem_data_o(mem_mem_data_o),
+    // .mem_op_o(mem_mem_op_o),
     // to ram
     .ram_addr_o(mem_ram_addr_o),
     .ram_w_request_o(mem_ram_w_request_o),

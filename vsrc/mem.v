@@ -17,10 +17,11 @@ module mem(
     input wire[`DATA_WIDTH-1:0] mem_data_i,
     input wire[3:0] mem_op_i,  //LB,LH,LW,LBU, LHU, SB, SH, SW, NONE
 
-    output reg mem_we_o,
-    output reg[`ADDR_WIDTH-1:0] mem_addr_o,
-    output reg[`DATA_WIDTH-1:0] mem_data_o,
-    output reg[3:0] mem_op_o, //LB,LH,LW,LBU, LHU, SB, SH, SW
+    // output reg mem_we_o,
+    // output reg[`ADDR_WIDTH-1:0] mem_addr_o,
+    // output reg[`DATA_WIDTH-1:0] mem_data_o,
+    // output reg[3:0] mem_op_o, 
+            //LB,LH,LW,LBU, LHU, SB, SH, SW
     //to ram
     output reg[`ADDR_WIDTH-1:0] ram_addr_o,
     output reg ram_w_request_o,
@@ -65,16 +66,16 @@ module mem(
                 `LBU: begin
                     case(ram_addr_offset)
                     2'b00:begin
-                        reg_wdata_o = {{24{0}}, ram_data_i[7:0]};
+                        reg_wdata_o = {{24{1'b0}}, ram_data_i[7:0]};
                     end
                     2'b01:begin
-                        reg_wdata_o = {{24{0}}, ram_data_i[15:8]};
+                        reg_wdata_o = {{24{1'b0}}, ram_data_i[15:8]};
                     end
                     2'b10:begin
-                        reg_wdata_o = {{24{0}}, ram_data_i[23:16]};
+                        reg_wdata_o = {{24{1'b0}}, ram_data_i[23:16]};
                     end
                     default:begin
-                        reg_wdata_o = {{24{0}}, ram_data_i[31:24]};
+                        reg_wdata_o = {{24{1'b0}}, ram_data_i[31:24]};
                     end
                     endcase      
                 end
@@ -91,10 +92,10 @@ module mem(
                 `LHU: begin
                     case(ram_addr_offset)
                     2'b00:begin
-                        reg_wdata_o = {{16{0}}, ram_data_i[15:0]};
+                        reg_wdata_o = {{16{1'b0}}, ram_data_i[15:0]};
                     end
                     default:begin
-                        reg_wdata_o = {{16{0}}, ram_data_i[31:16]};
+                        reg_wdata_o = {{16{1'b0}}, ram_data_i[31:16]};
                     end
                     endcase      
                 end

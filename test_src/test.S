@@ -5,8 +5,8 @@ _start:
 	li x3, 0xffff0f0b	
 	li x4, 0x0000f0ab	
 	la x5, _array		
-	lh x4, 0(x5)
-	sb x3, 0(x4)		
+	lhu x4, 0(x5)
+	sh x3, 0(x4)		
 	li x2, 10
 	li x26, 10
 	li x27, 10

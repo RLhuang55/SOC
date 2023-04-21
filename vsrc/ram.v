@@ -16,7 +16,7 @@ module ram
     //write
     always @(posedge clk_i) begin
         if (we_i == `WRITE_ENABLE && rst_i==1'b0) begin
-            mem[addr_i[`RAM_ADDR_WIDTH+1:2]] <= data_i;
+            mem[addr_i[`RAM_ADDR_WIDTH-1:2]] <= data_i;
            // dataReady_o <= 1'b0;
         end 
     end    
@@ -27,7 +27,7 @@ module ram
             data_o = `ZERO;
         end else begin
             //dataReady_o = 1'b1;
-            data_o = mem[addr_i[`RAM_ADDR_WIDTH+1:2]];
+            data_o = mem[addr_i[`RAM_ADDR_WIDTH-1:2]];
         end//if
 
 endmodule

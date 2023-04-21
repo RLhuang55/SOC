@@ -75,8 +75,8 @@ void Vtest_top::_eval(Vtest_top__Syms* __restrict vlSymsp) {
     if (((IData)(vlTOPp->clk_i) & (~ (IData)(vlTOPp->__Vclklast__TOP__clk_i)))) {
         vlSymsp->TOP__test_top._sequent__TOP__test_top__1(vlSymsp);
         vlTOPp->__Vm_traceActivity[1U] = 1U;
-        vlSymsp->TOP__test_top__rom0._sequent__TOP__test_top__rom0__1(vlSymsp);
         vlSymsp->TOP__test_top__regfile0._sequent__TOP__test_top__regfile0__2(vlSymsp);
+        vlSymsp->TOP__test_top__rom0._sequent__TOP__test_top__rom0__1(vlSymsp);
         vlSymsp->TOP__test_top._sequent__TOP__test_top__2(vlSymsp);
     }
     vlSymsp->TOP__test_top._combo__TOP__test_top__5(vlSymsp);

@@ -34,6 +34,7 @@ module exe(
         .inst_i(inst_i),
         .op1_i(op1_i),
         .op2_i(op2_i),
+        .reg_waddr_i(reg_waddr_i),
         .reg_wdata_o(r_reg_wdata_o),
         .reg_we_o(r_reg_we_o)
      );

@@ -29,13 +29,6 @@ Vtest_top_test_top::~Vtest_top_test_top() {
 void Vtest_top_test_top::_settle__TOP__test_top__3(Vtest_top__Syms* __restrict vlSymsp) {
     VL_DEBUG_IF(VL_DBG_MSGF("+      Vtest_top_test_top::_settle__TOP__test_top__3\n"); );
     Vtest_top* const __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
-    // Variables
-    WData/*543:0*/ __Vtemp6[17];
-    WData/*543:0*/ __Vtemp7[17];
-    WData/*799:0*/ __Vtemp8[25];
-    WData/*799:0*/ __Vtemp9[25];
-    WData/*799:0*/ __Vtemp10[25];
-    WData/*799:0*/ __Vtemp11[25];
     // Body
     vlSymsp->TOP__test_top.__PVT__id_inst_o = ((IData)(vlTOPp->rst_i)
                                                 ? 0x13U
@@ -677,7 +670,7 @@ void Vtest_top_test_top::_settle__TOP__test_top__3(Vtest_top__Syms* __restrict v
                         = (vlSymsp->TOP__test_top.__PVT__id_exe_op1_o 
                            & vlSymsp->TOP__test_top.__PVT__id_exe_op2_o);
                     vlSymsp->TOP__test_top.__PVT__exe0__DOT__exe_type_r0__DOT__reg_waddr_o 
-                        = vlSymsp->TOP__test_top.__PVT__exe0__DOT__exe_type_r0__DOT__reg_waddr_i;
+                        = vlSymsp->TOP__test_top.__PVT__id_exe_reg_waddr_o;
                     vlSymsp->TOP__test_top.__PVT__exe0__DOT__r_reg_we_o = 1U;
                 } else {
                     vlSymsp->TOP__test_top.__PVT__exe0__DOT__r_reg_wdata_o 
@@ -700,14 +693,14 @@ void Vtest_top_test_top::_settle__TOP__test_top__3(Vtest_top__Syms* __restrict v
                                              >> vlSymsp->TOP__test_top.__PVT__id_exe_op2_o)
                                           : 0U));
                     vlSymsp->TOP__test_top.__PVT__exe0__DOT__exe_type_r0__DOT__reg_waddr_o 
-                        = vlSymsp->TOP__test_top.__PVT__exe0__DOT__exe_type_r0__DOT__reg_waddr_i;
+                        = vlSymsp->TOP__test_top.__PVT__id_exe_reg_waddr_o;
                     vlSymsp->TOP__test_top.__PVT__exe0__DOT__r_reg_we_o = 1U;
                 } else {
                     vlSymsp->TOP__test_top.__PVT__exe0__DOT__r_reg_wdata_o 
                         = (vlSymsp->TOP__test_top.__PVT__id_exe_op1_o 
                            ^ vlSymsp->TOP__test_top.__PVT__id_exe_op2_o);
                     vlSymsp->TOP__test_top.__PVT__exe0__DOT__exe_type_r0__DOT__reg_waddr_o 
-                        = vlSymsp->TOP__test_top.__PVT__exe0__DOT__exe_type_r0__DOT__reg_waddr_i;
+                        = vlSymsp->TOP__test_top.__PVT__id_exe_reg_waddr_o;
                     vlSymsp->TOP__test_top.__PVT__exe0__DOT__r_reg_we_o = 1U;
                 }
             }
@@ -719,7 +712,7 @@ void Vtest_top_test_top::_settle__TOP__test_top__3(Vtest_top__Syms* __restrict v
                             < vlSymsp->TOP__test_top.__PVT__id_exe_op2_o)
                             ? 1U : 0U);
                     vlSymsp->TOP__test_top.__PVT__exe0__DOT__exe_type_r0__DOT__reg_waddr_o 
-                        = vlSymsp->TOP__test_top.__PVT__exe0__DOT__exe_type_r0__DOT__reg_waddr_i;
+                        = vlSymsp->TOP__test_top.__PVT__id_exe_reg_waddr_o;
                     vlSymsp->TOP__test_top.__PVT__exe0__DOT__r_reg_we_o = 1U;
                 } else {
                     vlSymsp->TOP__test_top.__PVT__exe0__DOT__r_reg_wdata_o 
@@ -727,7 +720,7 @@ void Vtest_top_test_top::_settle__TOP__test_top__3(Vtest_top__Syms* __restrict v
                             < vlSymsp->TOP__test_top.__PVT__id_exe_op2_o)
                             ? 1U : 0U);
                     vlSymsp->TOP__test_top.__PVT__exe0__DOT__exe_type_r0__DOT__reg_waddr_o 
-                        = vlSymsp->TOP__test_top.__PVT__exe0__DOT__exe_type_r0__DOT__reg_waddr_i;
+                        = vlSymsp->TOP__test_top.__PVT__id_exe_reg_waddr_o;
                     vlSymsp->TOP__test_top.__PVT__exe0__DOT__r_reg_we_o = 1U;
                 }
             } else {
@@ -738,7 +731,7 @@ void Vtest_top_test_top::_settle__TOP__test_top__3(Vtest_top__Syms* __restrict v
                                << vlSymsp->TOP__test_top.__PVT__id_exe_op2_o)
                             : 0U);
                     vlSymsp->TOP__test_top.__PVT__exe0__DOT__exe_type_r0__DOT__reg_waddr_o 
-                        = vlSymsp->TOP__test_top.__PVT__exe0__DOT__exe_type_r0__DOT__reg_waddr_i;
+                        = vlSymsp->TOP__test_top.__PVT__id_exe_reg_waddr_o;
                     vlSymsp->TOP__test_top.__PVT__exe0__DOT__r_reg_we_o = 1U;
                 } else {
                     vlSymsp->TOP__test_top.__PVT__exe0__DOT__r_reg_wdata_o 
@@ -749,7 +742,7 @@ void Vtest_top_test_top::_settle__TOP__test_top__3(Vtest_top__Syms* __restrict v
                             : (vlSymsp->TOP__test_top.__PVT__id_exe_op1_o 
                                - vlSymsp->TOP__test_top.__PVT__id_exe_op2_o));
                     vlSymsp->TOP__test_top.__PVT__exe0__DOT__exe_type_r0__DOT__reg_waddr_o 
-                        = vlSymsp->TOP__test_top.__PVT__exe0__DOT__exe_type_r0__DOT__reg_waddr_i;
+                        = vlSymsp->TOP__test_top.__PVT__id_exe_reg_waddr_o;
                     vlSymsp->TOP__test_top.__PVT__exe0__DOT__r_reg_we_o = 1U;
                 }
             }
@@ -1524,44 +1517,27 @@ void Vtest_top_test_top::_settle__TOP__test_top__3(Vtest_top__Syms* __restrict v
         vlSymsp->TOP__test_top.__PVT__mem_reg_wdata_o = 0U;
     } else {
         if ((8U & (IData)(vlSymsp->TOP__test_top.__PVT__exe_mem_mem_op_o))) {
-            VL_EXTEND_WI(528,16, __Vtemp6, (0xffffU 
-                                            & vlSymsp->TOP__test_top.__PVT__mem_ram_data_i));
-            VL_EXTEND_WI(528,16, __Vtemp7, (0xffffU 
-                                            & (vlSymsp->TOP__test_top.__PVT__mem_ram_data_i 
-                                               >> 0x10U)));
-            VL_EXTEND_WI(776,8, __Vtemp8, (0xffU & vlSymsp->TOP__test_top.__PVT__mem_ram_data_i));
-            VL_EXTEND_WI(776,8, __Vtemp9, (0xffU & 
-                                           (vlSymsp->TOP__test_top.__PVT__mem_ram_data_i 
-                                            >> 8U)));
-            VL_EXTEND_WI(776,8, __Vtemp10, (0xffU & 
-                                            (vlSymsp->TOP__test_top.__PVT__mem_ram_data_i 
-                                             >> 0x10U)));
-            VL_EXTEND_WI(776,8, __Vtemp11, (0xffU & 
-                                            (vlSymsp->TOP__test_top.__PVT__mem_ram_data_i 
-                                             >> 0x18U)));
             vlSymsp->TOP__test_top.__PVT__mem_reg_wdata_o 
                 = ((4U & (IData)(vlSymsp->TOP__test_top.__PVT__exe_mem_mem_op_o))
                     ? ((2U & (IData)(vlSymsp->TOP__test_top.__PVT__exe_mem_mem_op_o))
                         ? vlSymsp->TOP__test_top.__PVT__exe_mem_reg_wdata_o
                         : ((1U & (IData)(vlSymsp->TOP__test_top.__PVT__exe_mem_mem_op_o))
                             ? ((0U == (3U & vlSymsp->TOP__test_top.__PVT__exe_mem_mem_addr_o))
-                                ? __Vtemp6[0U] : __Vtemp7[0U])
+                                ? (0xffffU & vlSymsp->TOP__test_top.__PVT__mem_ram_data_i)
+                                : (0xffffU & (vlSymsp->TOP__test_top.__PVT__mem_ram_data_i 
+                                              >> 0x10U)))
                             : ((0U == (3U & vlSymsp->TOP__test_top.__PVT__exe_mem_mem_addr_o))
-                                ? __Vtemp8[0U] : ((1U 
-                                                   == 
-                                                   (3U 
-                                                    & vlSymsp->TOP__test_top.__PVT__exe_mem_mem_addr_o))
-                                                   ? 
-                                                  __Vtemp9[0U]
-                                                   : 
-                                                  ((2U 
-                                                    == 
-                                                    (3U 
-                                                     & vlSymsp->TOP__test_top.__PVT__exe_mem_mem_addr_o))
-                                                    ? 
-                                                   __Vtemp10[0U]
-                                                    : 
-                                                   __Vtemp11[0U])))))
+                                ? (0xffU & vlSymsp->TOP__test_top.__PVT__mem_ram_data_i)
+                                : ((1U == (3U & vlSymsp->TOP__test_top.__PVT__exe_mem_mem_addr_o))
+                                    ? (0xffU & (vlSymsp->TOP__test_top.__PVT__mem_ram_data_i 
+                                                >> 8U))
+                                    : ((2U == (3U & vlSymsp->TOP__test_top.__PVT__exe_mem_mem_addr_o))
+                                        ? (0xffU & 
+                                           (vlSymsp->TOP__test_top.__PVT__mem_ram_data_i 
+                                            >> 0x10U))
+                                        : (0xffU & 
+                                           (vlSymsp->TOP__test_top.__PVT__mem_ram_data_i 
+                                            >> 0x18U)))))))
                     : ((2U & (IData)(vlSymsp->TOP__test_top.__PVT__exe_mem_mem_op_o))
                         ? ((1U & (IData)(vlSymsp->TOP__test_top.__PVT__exe_mem_mem_op_o))
                             ? vlSymsp->TOP__test_top.__PVT__mem_ram_data_i
@@ -1839,10 +1815,6 @@ void Vtest_top_test_top::_ctor_var_reset() {
     __PVT__mem_reg_waddr_o = VL_RAND_RESET_I(5);
     __PVT__mem_reg_we_o = VL_RAND_RESET_I(1);
     __PVT__mem_reg_wdata_o = VL_RAND_RESET_I(32);
-    __PVT__mem_mem_we_o = VL_RAND_RESET_I(1);
-    __PVT__mem_mem_addr_o = VL_RAND_RESET_I(32);
-    __PVT__mem_mem_data_o = VL_RAND_RESET_I(32);
-    __PVT__mem_mem_op_o = VL_RAND_RESET_I(4);
     __PVT__mem_wb_reg_waddr_o = VL_RAND_RESET_I(5);
     __PVT__mem_wb_reg_we_o = VL_RAND_RESET_I(1);
     __PVT__mem_wb_reg_wdata_o = VL_RAND_RESET_I(32);
@@ -1870,10 +1842,8 @@ void Vtest_top_test_top::_ctor_var_reset() {
     __PVT__exe0__DOT__r_reg_wdata_o = VL_RAND_RESET_I(32);
     __PVT__exe0__DOT__r_reg_we_o = VL_RAND_RESET_I(1);
     __PVT__exe0__DOT__s_l_reg_we_o = VL_RAND_RESET_I(1);
-    __PVT__exe0__DOT__exe_type_r0__DOT__reg_waddr_i = VL_RAND_RESET_I(32);
     __PVT__exe0__DOT__exe_type_r0__DOT__reg_waddr_o = VL_RAND_RESET_I(32);
     { int __Vi0=0; for (; __Vi0<131072; ++__Vi0) {
             __PVT__ram0__DOT__mem[__Vi0] = VL_RAND_RESET_I(32);
     }}
-    __Vdly__pc_wire = VL_RAND_RESET_I(32);
 }

@@ -12,7 +12,7 @@ module rom
     wire[`PART_ADDR_WIDTH-1:0] addr4;
     assign addr4 = {addr_i[`PART_ADDR_WIDTH-1:2],2'b0};
     
-    always @(posedge clk_i)
+    always @(*)
         if (ce_i == 1'b0) begin
             inst_o <= 32'h0;
         end else begin
