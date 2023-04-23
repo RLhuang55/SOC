@@ -50,8 +50,8 @@ VL_MODULE(Vtest_top_dpram) {
   private:
     void _ctor_var_reset() VL_ATTR_COLD;
   public:
-    static void _sequent__TOP__test_top__dpram0__1(Vtest_top__Syms* __restrict vlSymsp);
-    static void _settle__TOP__test_top__dpram0__2(Vtest_top__Syms* __restrict vlSymsp);
+    static void _sequent__TOP__test_top__dpram0__2(Vtest_top__Syms* __restrict vlSymsp);
+    static void _settle__TOP__test_top__dpram0__1(Vtest_top__Syms* __restrict vlSymsp);
     void writeByte(uint32_t byte_addr, uint32_t val);
   private:
     static void traceInit(void* userp, VerilatedVcd* tracep, uint32_t code) VL_ATTR_COLD;

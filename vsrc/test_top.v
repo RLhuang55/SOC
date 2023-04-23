@@ -2,10 +2,11 @@
 
 module test_top(
     input wire rst_i,
-    input wire clk_i
+    input wire clk_i,
+    output reg halt_o
 );
-
 wire[`ADDR_WIDTH-1:0] pc_wire;
+wire mem_halt_o;
 wire ce_wire;
 //pipe_ctrl
 wire[5:0] ctrl_stall_o;
@@ -276,6 +277,7 @@ exe_mem exe_mem0(
 );
     //mem
 mem mem0(
+    .clk_i(clk_i),
     .rst_i(rst_i),
     //from exe_mem
     .reg_waddr_i(exe_mem_reg_waddr_o),
@@ -295,8 +297,11 @@ mem mem0(
     //to mem_wb
     .reg_waddr_o(mem_reg_waddr_o),
     .reg_we_o(mem_reg_we_o),
-    .reg_wdata_o(mem_reg_wdata_o)
+    .reg_wdata_o(mem_reg_wdata_o),
+    //for test halt signal
+    .halt_o(mem_halt_o)
 );
+// assign halt_o = mem_halt_o;
 //mem_wb
 mem_wb mem_wb0(
     .rst_i(rst_i), .clk_i(clk_i),

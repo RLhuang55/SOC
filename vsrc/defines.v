@@ -6,7 +6,7 @@
 `define MEM_SIZE    32'h200000
 `define MEM_OFFSET  32'h0
 `define PART_ADDR_WIDTH 21
-
+`define HALT_ADDR   32'h200008 
 `define ZERO        32'h0
 `define ZERO_REG    0
 `define WRITE_ENABLE    1'b1

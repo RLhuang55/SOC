@@ -10,7 +10,6 @@ PROG_S = $(wildcard ./test_src/*.S)
 
 .DEFAULT_GOAL := all
 all: vhdlmake
-# $(info $$var is [${INC}])
 
 obj_dir/V${TOP}.mk: ${V_SRC} ${TESTBENCH_SRC} 
 	verilator -Wall --cc --exe --build ${TESTBENCH_SRC} ${INC} ${VTOP} --trace
@@ -18,18 +17,21 @@ obj_dir/V${TOP}.mk: ${V_SRC} ${TESTBENCH_SRC}
 obj_dir/V${TOP}.exe : obj_dir/V${TOP}.mk
 	$(MAKE) -C obj_dir -f V$(TOP).mk
 
-test_src/${PROG}.bin:
-	$(MAKE) -C test_src
+# test_src/${PROG}.bin:
+# 	$(MAKE) -C test_src
 
 .PHONY : vhdl
 vhdl: obj_dir/V${TOP}.mk
+
+.PHONY : exe
+exe: obj_dir/V${TOP}.exe
 
 .PHONY : run
 run: test_src/${PROG}.bin obj_dir/V${TOP}.exe 
 	obj_dir/V${TOP} test_src/${PROG}.bin
 
 .PHONY : wave
-wave: run
+wave:
 	${GTKWAVE} wave.vcd
 
 .PHONY : clean

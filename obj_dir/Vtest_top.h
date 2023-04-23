@@ -32,6 +32,7 @@ VL_MODULE(Vtest_top) {
     // propagate new values into/out from the Verilated model.
     VL_IN8(clk_i,0,0);
     VL_IN8(rst_i,0,0);
+    VL_OUT8(halt_o,0,0);
     
     // LOCAL VARIABLES
     // Internals; generally not touched by application code
@@ -85,6 +86,7 @@ VL_MODULE(Vtest_top) {
   public:
     static void _eval_initial(Vtest_top__Syms* __restrict vlSymsp) VL_ATTR_COLD;
     static void _eval_settle(Vtest_top__Syms* __restrict vlSymsp) VL_ATTR_COLD;
+    static void _settle__TOP__1(Vtest_top__Syms* __restrict vlSymsp) VL_ATTR_COLD;
   private:
     static void traceChgSub0(void* userp, VerilatedVcd* tracep);
     static void traceChgTop0(void* userp, VerilatedVcd* tracep);

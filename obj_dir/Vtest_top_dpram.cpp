@@ -20,8 +20,44 @@ void Vtest_top_dpram::writeByte(uint32_t byte_addr, uint32_t val) {
         = val;
 }
 
-VL_INLINE_OPT void Vtest_top_dpram::_sequent__TOP__test_top__dpram0__1(Vtest_top__Syms* __restrict vlSymsp) {
-    VL_DEBUG_IF(VL_DBG_MSGF("+        Vtest_top_dpram::_sequent__TOP__test_top__dpram0__1\n"); );
+VL_INLINE_OPT void Vtest_top_dpram::_settle__TOP__test_top__dpram0__1(Vtest_top__Syms* __restrict vlSymsp) {
+    VL_DEBUG_IF(VL_DBG_MSGF("+        Vtest_top_dpram::_settle__TOP__test_top__dpram0__1\n"); );
+    Vtest_top* const __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
+    // Body
+    vlSymsp->TOP__test_top__dpram0.__PVT__data_o = 
+        ((IData)(vlTOPp->rst_i) ? 0U : ((IData)(vlSymsp->TOP__test_top.__PVT__mem_ram_w_request_o)
+                                         ? 0U : ((vlSymsp->TOP__test_top__dpram0.__PVT__mem
+                                                  [
+                                                  (0x1fffcU 
+                                                   & vlSymsp->TOP__test_top.__PVT__mem_ram_addr_o)] 
+                                                  << 0x18U) 
+                                                 | ((vlSymsp->TOP__test_top__dpram0.__PVT__mem
+                                                     [
+                                                     (0x1ffffU 
+                                                      & ((IData)(1U) 
+                                                         + 
+                                                         (0x7fffcU 
+                                                          & vlSymsp->TOP__test_top.__PVT__mem_ram_addr_o)))] 
+                                                     << 0x10U) 
+                                                    | ((vlSymsp->TOP__test_top__dpram0.__PVT__mem
+                                                        [
+                                                        (0x1ffffU 
+                                                         & ((IData)(2U) 
+                                                            + 
+                                                            (0x7fffcU 
+                                                             & vlSymsp->TOP__test_top.__PVT__mem_ram_addr_o)))] 
+                                                        << 8U) 
+                                                       | vlSymsp->TOP__test_top__dpram0.__PVT__mem
+                                                       [
+                                                       (0x1ffffU 
+                                                        & ((IData)(3U) 
+                                                           + 
+                                                           (0x7fffcU 
+                                                            & vlSymsp->TOP__test_top.__PVT__mem_ram_addr_o)))])))));
+}
+
+VL_INLINE_OPT void Vtest_top_dpram::_sequent__TOP__test_top__dpram0__2(Vtest_top__Syms* __restrict vlSymsp) {
+    VL_DEBUG_IF(VL_DBG_MSGF("+        Vtest_top_dpram::_sequent__TOP__test_top__dpram0__2\n"); );
     Vtest_top* const __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
     // Variables
     CData/*7:0*/ __Vdlyvval__mem__v0;
@@ -65,40 +101,4 @@ VL_INLINE_OPT void Vtest_top_dpram::_sequent__TOP__test_top__dpram0__1(Vtest_top
         vlSymsp->TOP__test_top__dpram0.__PVT__mem[__Vdlyvdim0__mem__v3] 
             = __Vdlyvval__mem__v3;
     }
-}
-
-VL_INLINE_OPT void Vtest_top_dpram::_settle__TOP__test_top__dpram0__2(Vtest_top__Syms* __restrict vlSymsp) {
-    VL_DEBUG_IF(VL_DBG_MSGF("+        Vtest_top_dpram::_settle__TOP__test_top__dpram0__2\n"); );
-    Vtest_top* const __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
-    // Body
-    vlSymsp->TOP__test_top__dpram0.__PVT__data_o = 
-        ((IData)(vlTOPp->rst_i) ? 0U : ((IData)(vlSymsp->TOP__test_top.__PVT__mem_ram_w_request_o)
-                                         ? 0U : ((vlSymsp->TOP__test_top__dpram0.__PVT__mem
-                                                  [
-                                                  (0x1fffcU 
-                                                   & vlSymsp->TOP__test_top.__PVT__mem_ram_addr_o)] 
-                                                  << 0x18U) 
-                                                 | ((vlSymsp->TOP__test_top__dpram0.__PVT__mem
-                                                     [
-                                                     (0x1ffffU 
-                                                      & ((IData)(1U) 
-                                                         + 
-                                                         (0x7fffcU 
-                                                          & vlSymsp->TOP__test_top.__PVT__mem_ram_addr_o)))] 
-                                                     << 0x10U) 
-                                                    | ((vlSymsp->TOP__test_top__dpram0.__PVT__mem
-                                                        [
-                                                        (0x1ffffU 
-                                                         & ((IData)(2U) 
-                                                            + 
-                                                            (0x7fffcU 
-                                                             & vlSymsp->TOP__test_top.__PVT__mem_ram_addr_o)))] 
-                                                        << 8U) 
-                                                       | vlSymsp->TOP__test_top__dpram0.__PVT__mem
-                                                       [
-                                                       (0x1ffffU 
-                                                        & ((IData)(3U) 
-                                                           + 
-                                                           (0x7fffcU 
-                                                            & vlSymsp->TOP__test_top.__PVT__mem_ram_addr_o)))])))));
 }

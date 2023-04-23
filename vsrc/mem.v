@@ -2,7 +2,7 @@
 
 module mem(
     input wire rst_i,
-    
+    input wire clk_i,
     //from exe_mem
     input wire[`RADDR_WIDTH-1:0] reg_waddr_i,
     input wire reg_we_i,
@@ -21,10 +21,18 @@ module mem(
     //to mem_wb
     output reg[`RADDR_WIDTH-1:0] reg_waddr_o,
     output reg reg_we_o,
-    output reg[`RDATA_WIDTH-1:0] reg_wdata_o
+    output reg[`RDATA_WIDTH-1:0] reg_wdata_o,
+    output reg halt_o
 );
     wire[1:0] ram_addr_offset;
     assign ram_addr_offset = mem_addr_i[1:0] & 2'b11;
+    always @(posedge clk_i) begin
+        //for isa test
+        if (mem_op_i==`SW && mem_addr_i == `HALT_ADDR)
+            halt_o <= 1'b1;
+        else
+            halt_o <= halt_o;
+    end
     always @(*) begin
         if (rst_i == 1'b1) begin
             reg_waddr_o = `ZERO_REG;
