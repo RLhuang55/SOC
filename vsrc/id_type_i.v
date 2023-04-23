@@ -92,7 +92,7 @@ module id_type_i(
                 reg1_re_o = `READ_ENABLE;
                 reg2_re_o = `READ_DISABLE;
                 op1_o = reg1_rdata_i;
-                op2_o = {{20{inst_i[31]}}, inst_i[31:20]};
+                op2_o = `ZERO;
             end
             `INST_SRLSRAI: begin
                 reg_we_o = `WRITE_ENABLE;
@@ -102,7 +102,7 @@ module id_type_i(
                 reg1_re_o = `READ_ENABLE;
                 reg2_re_o = `READ_DISABLE;
                 op1_o = reg1_rdata_i;
-                op2_o = {{20{inst_i[31]}}, inst_i[31:20]};
+                op2_o = `ZERO;
             end
             default:begin
                 reg1_raddr_o = `ZERO_REG;

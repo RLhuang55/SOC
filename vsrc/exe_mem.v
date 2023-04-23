@@ -8,18 +8,17 @@ module exe_mem(
     input wire[`RADDR_WIDTH-1:0] reg_waddr_i,
     input wire reg_we_i,
     input wire[`RDATA_WIDTH-1:0] reg_wdata_i,
-    //mem input & output
     input wire mem_we_i,
     input wire[`ADDR_WIDTH-1:0] mem_addr_i,
     input wire[`DATA_WIDTH-1:0] mem_data_i,
     input wire[3:0] mem_op_i,  //LB,LH,LW,LBU, LHU, SB, SH, SW, NONE
+    //from strl
     input wire[5:0]stall_i,
+    //to mem
     output reg mem_we_o,
     output reg[`ADDR_WIDTH-1:0] mem_addr_o,
     output reg[`DATA_WIDTH-1:0] mem_data_o,
     output reg[3:0] mem_op_o, //LB,LH,LW,LBU, LHU, SB, SH, SW
-    //to mem
-    
     output reg[`RADDR_WIDTH-1:0] reg_waddr_o,
     output reg reg_we_o,
     output reg[`RDATA_WIDTH-1:0] reg_wdata_o

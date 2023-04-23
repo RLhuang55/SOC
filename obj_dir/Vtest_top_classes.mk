@@ -25,14 +25,14 @@ VM_TRACE_FST_WRITER_THREAD = 0
 VM_CLASSES_FAST += \
 	Vtest_top \
 	Vtest_top_test_top \
-	Vtest_top_rom \
+	Vtest_top_dpram \
 	Vtest_top_regfile \
 
 # Generated module classes, non-fast-path, compile with low/medium optimization
 VM_CLASSES_SLOW += \
 	Vtest_top__Slow \
 	Vtest_top_test_top__Slow \
-	Vtest_top_rom__Slow \
+	Vtest_top_dpram__Slow \
 	Vtest_top_regfile__Slow \
 
 # Generated support classes, fast-path, compile with highest optimization

@@ -7,7 +7,10 @@ module test_top(
 
 wire[`ADDR_WIDTH-1:0] pc_wire;
 wire ce_wire;
-
+//pipe_ctrl
+wire[5:0] ctrl_stall_o;
+wire ctrl_flush_jump_o;
+wire[`ADDR_WIDTH-1:0] ctrl_new_pc_o;
 //if to if_id lines
 wire[`ADDR_WIDTH-1:0] if_inst_addr_o;
 wire[`DATA_WIDTH-1:0] if_inst_o;
@@ -18,9 +21,11 @@ wire[`DATA_WIDTH-1:0] if_id_inst_o;
 
 // 連接 id 與 id_exe線
 wire[`DATA_WIDTH-1:0] id_inst_o;
+wire[`RADDR_WIDTH-1:0] id_inst_addr_o;
 wire[`RDATA_WIDTH-1:0] id_op1_o;
 wire[`RDATA_WIDTH-1:0] id_op2_o;
 wire id_reg_we_o;
+wire id_stallreq_o;
 wire[`RADDR_WIDTH-1:0] id_reg_waddr_o;
 //id to regfile
 wire[`RADDR_WIDTH-1:0] id_reg1_addr_o;
@@ -38,7 +43,7 @@ wire[`RDATA_WIDTH-1:0] id_exe_op2_o;
 wire id_exe_reg_we_o;
 wire[`RADDR_WIDTH-1:0] id_exe_reg_waddr_o;
 wire[`DATA_WIDTH-1:0] id_exe_inst_o;
-
+wire[`RADDR_WIDTH-1:0] id_exe_inst_addr_o;
 //exe
 wire[`RADDR_WIDTH-1:0] exe_reg_waddr_o;
 wire exe_reg_we_o;
@@ -47,6 +52,9 @@ wire exe_mem_we_o;
 wire[`ADDR_WIDTH-1:0] exe_mem_addr_o;
 wire[`DATA_WIDTH-1:0] exe_mem_data_o;
 wire[3:0] exe_mem_op_o;
+wire[`RADDR_WIDTH-1:0] exe_jump_addr_o;
+wire exe_jump_enable_o;
+wire exe_stallreq_o;
 //exe_mem
 wire[`RADDR_WIDTH-1:0] exe_mem_reg_waddr_o;
 wire exe_mem_reg_we_o;
@@ -60,10 +68,6 @@ wire[3:0] exe_mem_mem_op_o;
 wire[`RADDR_WIDTH-1:0] mem_reg_waddr_o;
 wire mem_reg_we_o;
 wire[`RDATA_WIDTH-1:0] mem_reg_wdata_o;
-// wire mem_mem_we_o;
-// wire[`ADDR_WIDTH-1:0] mem_mem_addr_o;
-// wire[`DATA_WIDTH-1:0] mem_mem_data_o;
-// wire[3:0] mem_mem_op_o;
 //mem_wb
 wire[`RADDR_WIDTH-1:0] mem_wb_reg_waddr_o;
 wire mem_wb_reg_we_o;
@@ -74,10 +78,23 @@ wire mem_ram_w_request_o;
 wire[`DATA_WIDTH-1:0] mem_ram_data_o;
 // from ram to mem
 wire[`DATA_WIDTH-1:0] mem_ram_data_i;
-wire id_stallreq_o;
+// from id_exe to id
 wire[`RADDR_WIDTH-1:0] id_exe_rd_o;
-wire[5:0] ctrl_stall_o;
 wire id_exe_inst_is_load_o;
+dpram  dpram0(
+    .clk_i(clk_i),
+    .rst_i(rst_i),
+
+    .we_i(mem_ram_w_request_o),
+    .addr_i(mem_ram_addr_o),
+    .data_i(mem_ram_data_o),
+    .data_o(mem_ram_data_i),
+
+    .pc_i(pc_wire),
+    .inst_ce_i(ce_wire),
+    .inst_o(if_inst_o)
+);
+
 pc_reg pc_reg0(
     .rst_i(rst_i),
     .clk_i(clk_i),
@@ -86,20 +103,22 @@ pc_reg pc_reg0(
     // to rom
     .ce_o(ce_wire),
     //from ctrl
-    .stall_i(ctrl_stall_o)
+    .stall_i(ctrl_stall_o),
+    .flush_jump_i(ctrl_flush_jump_o),
+    .new_pc_i(ctrl_new_pc_o)
 );
 pipe_ctrl ctrl0(
     .rst_i(rst_i),
-    //.stallreq_from_if_i(if_stallreq_o), 
+    .jump_addr_i(exe_jump_addr_o),
+    .jump_enable_i(exe_jump_enable_o),
+    .stallreq_from_exe_i(exe_stallreq_o),
     .stallreq_from_id_i(id_stallreq_o), 
-    .stall_o(ctrl_stall_o)
+    .stall_o(ctrl_stall_o),
+    .flush_jump_o(ctrl_flush_jump_o),
+    .new_pc_o(ctrl_new_pc_o)
+
 );   
-rom rom0(
-    .addr_i(pc_wire),
-    .clk_i(clk_i),
-    .ce_i(ce_wire),
-    .inst_o(if_inst_o)
-);
+
 assign if_inst_addr_o = pc_wire;
 
 
@@ -113,7 +132,8 @@ if_id if_id0(
     .inst_addr_o(if_id_inst_addr_o),
     .inst_o(if_id_inst_o),
     //from ctrl
-    .stall_i(ctrl_stall_o)
+    .stall_i(ctrl_stall_o),
+    .flush_jump_i(ctrl_flush_jump_o)
 );
 
 
@@ -147,6 +167,7 @@ id id0(
 
     //to id_exe
     .inst_o(id_inst_o),
+    .inst_addr_o(id_inst_addr_o),
     .op1_o(id_op1_o),
     .op2_o(id_op2_o),
     .reg_we_o(id_reg_we_o),
@@ -156,8 +177,7 @@ id id0(
     .exe_rd_i(id_exe_rd_o),
 
     //to ctrl
-    .stallreq_o(id_stallreq_o),
-    .stall_i(ctrl_stall_o)
+    .stallreq_o(id_stallreq_o)
 );
 
 //regfile
@@ -185,17 +205,19 @@ id_exe id_exe0(
 
     //from id
     .inst_i(id_inst_o),
+    .inst_addr_i(id_inst_addr_o),
     .op1_i(id_op1_o),
     .op2_i(id_op2_o),
     .reg_we_i(id_reg_we_o),
     .reg_waddr_i(id_reg_waddr_o),
-
+    .flush_jump_i(ctrl_flush_jump_o),
     //to exe
     .op1_o(id_exe_op1_o),
     .op2_o(id_exe_op2_o),
     .reg_we_o(id_exe_reg_we_o),
     .reg_waddr_o(id_exe_reg_waddr_o),
     .inst_o(id_exe_inst_o),
+    .inst_addr_o(id_exe_inst_addr_o),
     //from ctrl
     .stall_i(ctrl_stall_o),
 
@@ -214,6 +236,7 @@ exe exe0(
     .reg_we_i(id_exe_reg_we_o),
     .reg_waddr_i(id_exe_reg_waddr_o),
     .inst_i(id_exe_inst_o),
+    .inst_addr_i(id_exe_inst_addr_o),
     //to exe_mem
     .reg_waddr_o(exe_reg_waddr_o),
     .reg_we_o(exe_reg_we_o),
@@ -222,7 +245,10 @@ exe exe0(
     .mem_we_o(exe_mem_we_o),
     .mem_addr_o(exe_mem_addr_o),
     .mem_data_o(exe_mem_data_o),
-    .mem_op_o(exe_mem_op_o)
+    .mem_op_o(exe_mem_op_o),
+    //to ctrl
+    .jump_addr_o(exe_jump_addr_o),
+    .jump_enable_o(exe_jump_enable_o)
 );
 
 //exe_mem
@@ -262,10 +288,6 @@ mem mem0(
     .mem_addr_i(exe_mem_mem_addr_o),
     .mem_data_i(exe_mem_mem_data_o),
     .mem_op_i(exe_mem_mem_op_o),
-    // .mem_we_o(mem_mem_we_o),
-    // .mem_addr_o(mem_mem_addr_o),
-    // .mem_data_o(mem_mem_data_o),
-    // .mem_op_o(mem_mem_op_o),
     // to ram
     .ram_addr_o(mem_ram_addr_o),
     .ram_w_request_o(mem_ram_w_request_o),
@@ -275,14 +297,6 @@ mem mem0(
     .reg_we_o(mem_reg_we_o),
     .reg_wdata_o(mem_reg_wdata_o)
 );
-ram ram0(
-        .rst_i(rst_i),
-        .clk_i(clk_i),
-        .addr_i(mem_ram_addr_o),
-        .we_i(mem_ram_w_request_o),
-        .data_i(mem_ram_data_o),
-        .data_o(mem_ram_data_i)
-    );
 //mem_wb
 mem_wb mem_wb0(
     .rst_i(rst_i), .clk_i(clk_i),

@@ -66,7 +66,18 @@
 `define LBU 4'b1100
 `define LHU 4'b1101
 `define MEM_NOP 4'b0000
-`define RAM_ADDR_WIDTH 21
+`define RAM_ADDR_WIDTH 19
 `define RAM_SIZE 32'h20000
 `define STOP 1
 `define NOSTOP 0
+// J type inst
+`define INST_TYPE_JAL  7'b1101111
+`define INST_TYPE_JALR  7'b1100111
+// B type inst
+`define INST_TYPE_B  7'b1100011
+`define INST_BEQ  3'b000
+`define INST_BNE  3'b001
+`define INST_BLT  3'b100
+`define INST_BGE  3'b001
+`define INST_BLTU  3'b110
+`define INST_BGEU  3'b111

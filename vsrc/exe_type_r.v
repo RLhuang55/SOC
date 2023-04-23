@@ -14,7 +14,6 @@ module exe_type_r(
     wire[6:0] opcode = inst_i[6:0];
     wire[2:0] funct3 = inst_i[14:12];
     wire[6:0] funct7 = inst_i[31:25];
-    reg[`RDATA_WIDTH-1:0] reg_waddr_o;
     
     wire isType_r;
     assign isType_r = (opcode == `INST_TYPE_R_M) && ((funct7 == 7'b0000000 || funct7 == 7'b0100000));
@@ -29,19 +28,16 @@ module exe_type_r(
                     `INST_OR: begin
                         reg_wdata_o = op1_i | op2_i;
                         reg_we_o = `WRITE_ENABLE;
-                        $display("regwdatao %d",reg_wdata_o );
                     end//ORI
                     `INST_ADD: begin      
                         if(funct7 == 7'b0)                      
                             reg_wdata_o = op1_i + op2_i;
                         else
                             reg_wdata_o = op1_i - op2_i;
-                        reg_waddr_o = reg_waddr_i;
                         reg_we_o = `WRITE_ENABLE;
                     end
                     `INST_SLL: begin                            
                         reg_wdata_o = op1_i << op2_i;
-                        reg_waddr_o = reg_waddr_i;
                         reg_we_o = `WRITE_ENABLE;
                     end
                     `INST_SLT: begin
@@ -49,7 +45,6 @@ module exe_type_r(
                             reg_wdata_o = 1;
                         else
                             reg_wdata_o = 0;
-                        reg_waddr_o = reg_waddr_i;
                         reg_we_o = `WRITE_ENABLE;
                     end
                     `INST_SLTIU: begin
@@ -57,12 +52,10 @@ module exe_type_r(
                             reg_wdata_o = 1;
                         else
                             reg_wdata_o = 0;
-                        reg_waddr_o = reg_waddr_i;
                         reg_we_o = `WRITE_ENABLE;
                     end
                     `INST_XOR: begin                            
                         reg_wdata_o = op1_i ^ op2_i;
-                        reg_waddr_o = reg_waddr_i;
                         reg_we_o = `WRITE_ENABLE;
                     end
                     `INST_SR: begin           
@@ -70,12 +63,10 @@ module exe_type_r(
                             reg_wdata_o = op1_i >> $unsigned(op2_i);
                         else
                             reg_wdata_o = op1_i >> $signed(op2_i);
-                        reg_waddr_o = reg_waddr_i;
                         reg_we_o = `WRITE_ENABLE;
                     end
                     `INST_AND: begin                            
                         reg_wdata_o = op1_i & op2_i;
-                        reg_waddr_o = reg_waddr_i;
                         reg_we_o = `WRITE_ENABLE;
                     end
                     default: begin

@@ -12,7 +12,7 @@
 // INCLUDE MODULE CLASSES
 #include "Vtest_top.h"
 #include "Vtest_top_test_top.h"
-#include "Vtest_top_rom.h"
+#include "Vtest_top_dpram.h"
 #include "Vtest_top_regfile.h"
 
 // DPI TYPES for DPI Export callbacks (Internal use)
@@ -30,8 +30,8 @@ class Vtest_top__Syms : public VerilatedSyms {
     // SUBCELL STATE
     Vtest_top*                     TOPp;
     Vtest_top_test_top             TOP__test_top;
+    Vtest_top_dpram                TOP__test_top__dpram0;
     Vtest_top_regfile              TOP__test_top__regfile0;
-    Vtest_top_rom                  TOP__test_top__rom0;
     
     // CREATORS
     Vtest_top__Syms(Vtest_top* topp, const char* namep);

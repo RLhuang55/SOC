@@ -9,19 +9,11 @@ module mem(
     input wire[`RDATA_WIDTH-1:0] reg_wdata_i,
     //from ram
     input wire[`DATA_WIDTH-1:0] ram_data_i,
-    //input wire dataReady_i,
-
     // from exe.v, exe_mem.v, mem.v 需要的連線
     input wire mem_we_i,
     input wire[`ADDR_WIDTH-1:0] mem_addr_i,
     input wire[`DATA_WIDTH-1:0] mem_data_i,
     input wire[3:0] mem_op_i,  //LB,LH,LW,LBU, LHU, SB, SH, SW, NONE
-
-    // output reg mem_we_o,
-    // output reg[`ADDR_WIDTH-1:0] mem_addr_o,
-    // output reg[`DATA_WIDTH-1:0] mem_data_o,
-    // output reg[3:0] mem_op_o, 
-            //LB,LH,LW,LBU, LHU, SB, SH, SW
     //to ram
     output reg[`ADDR_WIDTH-1:0] ram_addr_o,
     output reg ram_w_request_o,
@@ -31,8 +23,8 @@ module mem(
     output reg reg_we_o,
     output reg[`RDATA_WIDTH-1:0] reg_wdata_o
 );
-    wire[1:0]ram_addr_offset;
-    assign ram_addr_offset = mem_addr_i[1:0]&2'b11;
+    wire[1:0] ram_addr_offset;
+    assign ram_addr_offset = mem_addr_i[1:0] & 2'b11;
     always @(*) begin
         if (rst_i == 1'b1) begin
             reg_waddr_o = `ZERO_REG;
@@ -100,7 +92,7 @@ module mem(
                     endcase      
                 end
                 `LW: begin
-                    reg_wdata_o = {ram_data_i[31:0]};     
+                    reg_wdata_o = ram_data_i;     
                 end
                 `SB: begin
                     case (ram_addr_offset)
@@ -129,7 +121,7 @@ module mem(
                     endcase
                 end
                 `SW: begin
-                    ram_data_o = {mem_data_i[31:0]};
+                    ram_data_o = mem_data_i;
                 end
                 default: begin
                     reg_wdata_o = reg_wdata_i;

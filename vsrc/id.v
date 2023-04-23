@@ -25,7 +25,6 @@ module id(
     //from id_exe
     input wire[`RADDR_WIDTH-1:0] exe_rd_i,
     input wire pre_inst_is_load_i,
-    input wire[5:0]stall_i,
     /* for data hazard */
     // to regfile
     output reg[`RADDR_WIDTH-1:0] reg1_raddr_o,
@@ -35,10 +34,12 @@ module id(
 
     //to id_exe
     output reg[`DATA_WIDTH-1:0] inst_o,
+    output reg[`ADDR_WIDTH-1:0] inst_addr_o,
     output reg[`RDATA_WIDTH-1:0] op1_o,
     output reg[`RDATA_WIDTH-1:0] op2_o,
     output reg reg_we_o,
     output reg[`RADDR_WIDTH-1:0] reg_waddr_o,
+    // to ctrl
     output reg stallreq_o
     
     );
@@ -105,6 +106,7 @@ module id(
     always @(*) begin
         if (rst_i == 1) begin
             inst_o = `NOP;
+            inst_addr_o = `ZERO_REG;
             reg1_raddr_o = `ZERO_REG;
             reg2_raddr_o = `ZERO_REG;
             reg1_re_o = `READ_DISABLE;
@@ -114,17 +116,18 @@ module id(
             op1_o_final = `ZERO;
             op2_o_final = `ZERO;
         end else begin
+            inst_addr_o = `ZERO_REG;
             case (opcode)
                 `INST_TYPE_I:begin
-                        inst_o = inst_i;
-                        reg1_raddr_o = i_reg1_raddr_o;
-                        reg2_raddr_o = i_reg2_raddr_o;
-                        reg1_re_o = i_reg1_re_o;
-                        reg2_re_o = i_reg2_re_o;
-                        op1_o_final = i_op1_o;
-                        op2_o_final = i_op2_o;
-                        reg_we_o = i_reg_we_o;
-                        reg_waddr_o = i_reg_waddr_o;
+                    inst_o = inst_i;
+                    reg1_raddr_o = i_reg1_raddr_o;
+                    reg2_raddr_o = i_reg2_raddr_o;
+                    reg1_re_o = i_reg1_re_o;
+                    reg2_re_o = i_reg2_re_o;
+                    op1_o_final = i_op1_o;
+                    op2_o_final = i_op2_o;
+                    reg_we_o = i_reg_we_o;
+                    reg_waddr_o = i_reg_waddr_o;
                 end
                 `INST_TYPE_R_M:begin //Type_r and M
                     inst_o = inst_i;
@@ -181,6 +184,41 @@ module id(
                     reg_we_o = `WRITE_ENABLE;
                     reg_waddr_o = rd;
                 end
+                `INST_TYPE_JAL:begin
+                    inst_o = inst_i;
+                    reg1_raddr_o = `ZERO_REG;
+                    reg2_raddr_o = `ZERO_REG;
+                    reg1_re_o = `READ_DISABLE;
+                    reg2_re_o = `READ_DISABLE;
+                    op1_o_final = inst_addr_i;
+                    op2_o_final = {{12{inst_i[31]}},inst_i[19:12],inst_i[20],inst_i[30:21],1'b0};
+                    reg_we_o = `WRITE_ENABLE;
+                    reg_waddr_o = rd;
+                end
+                `INST_TYPE_JALR:begin
+                    inst_o = inst_i;
+                    inst_addr_o = inst_addr_i;
+                    reg1_raddr_o = rs1;
+                    reg2_raddr_o = `ZERO_REG;
+                    reg1_re_o = `READ_ENABLE;
+                    reg2_re_o = `READ_DISABLE;
+                    op1_o_final = reg1_rdata_i;
+                    op2_o_final = {{20{inst_i[31]}},inst_i[31:20]};
+                    reg_we_o = `WRITE_ENABLE;
+                    reg_waddr_o = rd;
+                end
+                `INST_TYPE_B:begin
+                    inst_o = inst_i;
+                    inst_addr_o = inst_addr_i;
+                    reg1_raddr_o = rs1;
+                    reg2_raddr_o = rs2;
+                    reg1_re_o = `READ_ENABLE;
+                    reg2_re_o = `READ_ENABLE;
+                    op1_o_final = reg1_rdata_i;
+                    op2_o_final = reg2_rdata_i;
+                    reg_we_o = `WRITE_DISABLE;
+                    reg_waddr_o = `ZERO_REG;
+                end
                 default:begin
                     inst_o = `NOP;
                     reg1_raddr_o = `ZERO_REG;
@@ -195,30 +233,15 @@ module id(
             endcase
         end//if
     end//always
-    
- 	//determine op1_o
-	always @(*) begin
-		if (rst_i == 1) begin
-			op1_o = `ZERO;
-		end else begin
-			op1_o = op1_o_final;
-		end//if
-	end//always
 
-	//determine op2_o
-	always @(*) begin
-		if (rst_i == 1) begin
-			op2_o = `ZERO;
-        end else begin
-			op2_o = op2_o_final;
-		end//if
-	end//always
     //determine op1_o
 	always @(*) begin
         if (reg1_re_o == `READ_ENABLE && exe_reg_we_i == `WRITE_ENABLE && exe_reg_waddr_i == reg1_raddr_o) begin
             op1_o = exe_reg_wdata_i;
         end else if(reg1_re_o == `READ_ENABLE && mem_reg_we_i == `WRITE_ENABLE && mem_reg_waddr_i == reg1_raddr_o) begin
             op1_o = mem_reg_wdata_i;
+        end else if(rst_i == 1) begin
+            op1_o = `ZERO;
         end else begin
     	    op1_o = op1_o_final;
         end
@@ -230,6 +253,8 @@ module id(
             op2_o = exe_reg_wdata_i;
         end else if(reg2_re_o == `READ_ENABLE && mem_reg_we_i == `WRITE_ENABLE && mem_reg_waddr_i == reg2_raddr_o) begin
             op2_o = mem_reg_wdata_i;
+        end else if(rst_i == 1) begin
+            op1_o = `ZERO;
         end else begin
     	    op2_o = op2_o_final;
         end

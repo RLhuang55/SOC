@@ -1,23 +1,15 @@
-	.text			# Define beginning of text section
+.text			# Define beginning of text section
 	.global	_start		# Define entry _start
 
 _start:
-	li x3, 0xffff0f0b	
-	li x4, 0x0000f0ab	
-	la x5, _array		
-	lhu x4, 0(x5)
-	sh x3, 0(x4)		
-	li x2, 10
-	li x26, 10
-	li x27, 10
-_array:	
-	.byte 0x10
-	.byte 0x20
-	.byte 0x30
-	.byte 0x00
-	.byte 0x00
-	.byte 0x00
-	.byte 0x00
-	.byte 0x00
-
+    li x3, 1				
+    li x2, 1				
+    beq x2, x3, _fail		
+    li x10, 1
+    li x11, 3
+    bne x10, x11, _end
+_fail:  
+    li x8, 1
+    li x9, 2
+_end:
 	.end			# End of file

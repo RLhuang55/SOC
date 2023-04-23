@@ -14,9 +14,9 @@ module rom
     
     always @(*)
         if (ce_i == 1'b0) begin
-            inst_o <= 32'h0;
+            inst_o = 32'h0;
         end else begin
-            inst_o <= {mem[addr4],mem[addr4+1],mem[addr4+2],mem[addr4+3]};
+            inst_o = {mem[addr4],mem[addr4+1],mem[addr4+2],mem[addr4+3]};
         end//if
     
     task writeByte;
