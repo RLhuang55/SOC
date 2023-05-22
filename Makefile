@@ -17,8 +17,8 @@ obj_dir/V${TOP}.mk: ${V_SRC} ${TESTBENCH_SRC}
 obj_dir/V${TOP}.exe : obj_dir/V${TOP}.mk
 	$(MAKE) -C obj_dir -f V$(TOP).mk
 
-# test_src/${PROG}.bin:
-# 	$(MAKE) -C test_src
+test_src/${PROG}.bin:
+	$(MAKE) -C test_src
 
 .PHONY : vhdl
 vhdl: obj_dir/V${TOP}.mk

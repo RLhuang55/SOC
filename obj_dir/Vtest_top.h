@@ -8,7 +8,7 @@
 #ifndef _VTEST_TOP_H_
 #define _VTEST_TOP_H_  // guard
 
-#include "verilated_heavy.h"
+#include "verilated.h"
 #include "Vtest_top__Dpi.h"
 
 //==========
@@ -37,7 +37,6 @@ VL_MODULE(Vtest_top) {
     // LOCAL VARIABLES
     // Internals; generally not touched by application code
     CData/*0:0*/ __Vclklast__TOP__clk_i;
-    IData/*31:0*/ __Vchglast__TOP__test_top__regfile0__rdata1_o;
     CData/*0:0*/ __Vm_traceActivity[3];
     
     // INTERNAL VARIABLES
@@ -86,7 +85,7 @@ VL_MODULE(Vtest_top) {
   public:
     static void _eval_initial(Vtest_top__Syms* __restrict vlSymsp) VL_ATTR_COLD;
     static void _eval_settle(Vtest_top__Syms* __restrict vlSymsp) VL_ATTR_COLD;
-    static void _settle__TOP__1(Vtest_top__Syms* __restrict vlSymsp) VL_ATTR_COLD;
+    static void _sequent__TOP__1(Vtest_top__Syms* __restrict vlSymsp);
   private:
     static void traceChgSub0(void* userp, VerilatedVcd* tracep);
     static void traceChgTop0(void* userp, VerilatedVcd* tracep);

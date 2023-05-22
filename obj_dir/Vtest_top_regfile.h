@@ -5,7 +5,7 @@
 #ifndef _VTEST_TOP_REGFILE_H_
 #define _VTEST_TOP_REGFILE_H_  // guard
 
-#include "verilated_heavy.h"
+#include "verilated.h"
 #include "Vtest_top__Dpi.h"
 
 //==========

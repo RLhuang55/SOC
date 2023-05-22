@@ -32,19 +32,31 @@ module exe_type_b_j(
             end
             `INST_BLT:begin
                 jump_addr_o = pc + {{20{inst_i[31]}}, inst_i[7], inst_i[30:25], inst_i[11:8], 1'b0};
-                jump_enable_o = (op1_i < op2_i);
+                if($signed(op1_i) < $signed(op2_i))
+                    jump_enable_o = 1'b1;
+                else
+                    jump_enable_o = 1'b0;
             end
             `INST_BGE:begin
                 jump_addr_o = pc + {{20{inst_i[31]}}, inst_i[7], inst_i[30:25], inst_i[11:8], 1'b0};
-                jump_enable_o = (op1_i >= op2_i);
+                if($signed(op1_i) >= $signed(op2_i))
+                    jump_enable_o = 1'b1;
+                else
+                    jump_enable_o = 1'b0;
             end
             `INST_BLTU:begin
                 jump_addr_o = pc + {{20{inst_i[31]}}, inst_i[7], inst_i[30:25], inst_i[11:8], 1'b0};
-                jump_enable_o = ($unsigned(op1_i) < $unsigned(op2_i));
+                if($unsigned(op1_i) < $unsigned(op2_i))
+                    jump_enable_o = 1'b1;
+                else
+                    jump_enable_o = 1'b0;
             end
             `INST_BGEU:begin
                 jump_addr_o = pc + {{20{inst_i[31]}}, inst_i[7], inst_i[30:25], inst_i[11:8], 1'b0};
-                jump_enable_o = ($unsigned(op1_i) >= $unsigned(op2_i));
+                if($unsigned(op1_i) >= $unsigned(op2_i))
+                    jump_enable_o = 1'b1;
+                else
+                    jump_enable_o = 1'b0;
             end
             default:begin
                 jump_addr_o = `ZERO;
@@ -53,11 +65,11 @@ module exe_type_b_j(
             endcase
         end
         `INST_TYPE_JAL: begin
-            jump_addr_o = inst_addr_i + {{12{inst_i[31]}},inst_i[19:12],inst_i[20],inst_i[30:21],1'b0};
+            jump_addr_o = pc + op2_i;
             jump_enable_o = 1'b1;
         end
         `INST_TYPE_JALR: begin
-            jump_addr_o = op1_i + {{20{inst_i[31]}},inst_i[31:20]};
+            jump_addr_o = op1_i + op2_i;
             jump_enable_o = 1'b1;
         end
         default: begin

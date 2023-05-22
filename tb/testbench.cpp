@@ -73,6 +73,7 @@ int main(int argc,char **argv)
         printf("FAIL %d\n",a0);
     } else
         printf("PASS\n");
+
      top->final();
      tfp->close();
      delete top;

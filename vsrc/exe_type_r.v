@@ -6,7 +6,7 @@ module exe_type_r(
     input wire[`DATA_WIDTH-1:0] op1_i,
     input wire[`DATA_WIDTH-1:0] op2_i,
     input wire[`RDATA_WIDTH-1:0] inst_i,
-    input reg[`RDATA_WIDTH-1:0] reg_waddr_i,
+    input reg[`RADDR_WIDTH-1:0] reg_waddr_i,
     output reg[`RDATA_WIDTH-1:0] reg_wdata_o,
     output reg reg_we_o
 );
@@ -37,14 +37,14 @@ module exe_type_r(
                         reg_we_o = `WRITE_ENABLE;
                     end
                     `INST_SLL: begin                            
-                        reg_wdata_o = op1_i << op2_i;
+                        reg_wdata_o = op1_i << op2_i[4:0];
                         reg_we_o = `WRITE_ENABLE;
                     end
                     `INST_SLT: begin
-                        if(op1_i < $signed(op2_i))
-                            reg_wdata_o = 1;
+                        if($signed(op1_i) < $signed(op2_i))
+                            reg_wdata_o = 32'h00000001;
                         else
-                            reg_wdata_o = 0;
+                            reg_wdata_o = `ZERO;
                         reg_we_o = `WRITE_ENABLE;
                     end
                     `INST_SLTIU: begin
@@ -60,9 +60,9 @@ module exe_type_r(
                     end
                     `INST_SR: begin           
                         if(funct7== 7'b0)                 
-                            reg_wdata_o = op1_i >> $unsigned(op2_i);
+                            reg_wdata_o = op1_i >> op2_i[4:0];
                         else
-                            reg_wdata_o = op1_i >> $signed(op2_i);
+                            reg_wdata_o = $signed(op1_i) >>> op2_i[4:0];
                         reg_we_o = `WRITE_ENABLE;
                     end
                     `INST_AND: begin                            

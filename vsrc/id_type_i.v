@@ -32,7 +32,6 @@ module id_type_i(
                 reg2_re_o = `READ_DISABLE;
                 op1_o = reg1_rdata_i;
                 op2_o = {{20{inst_i[31]}}, inst_i[31:20]};
-                $display("id_type_i");
             end
             `INST_ADDI: begin
                 reg_we_o = `WRITE_ENABLE;

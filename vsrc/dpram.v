@@ -5,20 +5,22 @@ module dpram
 //   )
 (
     // data port
-	input wire				      clk_i,
+	input wire clk_i,
     input wire rst_i,
-	input wire[`ADDR_WIDTH-1:0]	  addr_i,
-	input wire					  we_i,	
-	input wire[`DATA_WIDTH-1:0]	  data_i,
-	output reg[`DATA_WIDTH-1:0]	  data_o,
+	input wire[`ADDR_WIDTH-1:0]	addr_i,
+	input wire we_i,	
+	input wire[`DATA_WIDTH-1:0]	data_i,
+	output reg[`DATA_WIDTH-1:0]	data_o,
 	
 	// instrution port
-    input  wire                    inst_ce_i,
-    input  wire[`ADDR_WIDTH-1:0]   pc_i,
-    output reg[`DATA_WIDTH-1:0]    inst_o	
+    input wire inst_ce_i,
+    input wire[`ADDR_WIDTH-1:0] pc_i,
+    output reg[`DATA_WIDTH-1:0] inst_o	
 );
+    wire mem_e;
+    assign mem_e = (addr_i) ? 1'b1 : 1'b0;
 
-    reg[7:0]  mem[0:`RAM_SIZE-1];
+    reg[7:0] mem[0:`RAM_SIZE-1];
     wire[`RAM_ADDR_WIDTH-1:0] addr4;
     assign addr4 = {addr_i[`RAM_ADDR_WIDTH-1:2],2'b0};    
 
@@ -39,10 +41,10 @@ module dpram
 	always @ (*) begin
 		if (rst_i == 1'b1) begin
 			data_o = `ZERO;
-	    end else if(we_i == `WRITE_DISABLE) begin
+	    end else if(mem_e == 1'b1) begin
 		    data_o =  {mem[addr4],mem[addr4+1],mem[addr4+2],mem[addr4+3]};
-		end else begin
-			data_o = `ZERO;
+		// end else begin
+		// 	data_o = `ZERO;
 		end
 	end		
 

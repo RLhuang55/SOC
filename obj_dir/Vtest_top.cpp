@@ -68,22 +68,30 @@ void Vtest_top::_eval_initial_loop(Vtest_top__Syms* __restrict vlSymsp) {
     } while (VL_UNLIKELY(__Vchange));
 }
 
+VL_INLINE_OPT void Vtest_top::_sequent__TOP__1(Vtest_top__Syms* __restrict vlSymsp) {
+    VL_DEBUG_IF(VL_DBG_MSGF("+    Vtest_top::_sequent__TOP__1\n"); );
+    Vtest_top* const __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
+    // Body
+    vlTOPp->halt_o = vlSymsp->TOP__test_top.__PVT__mem_halt_o;
+}
+
 void Vtest_top::_eval(Vtest_top__Syms* __restrict vlSymsp) {
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vtest_top::_eval\n"); );
     Vtest_top* const __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
     // Body
     if (((IData)(vlTOPp->clk_i) & (~ (IData)(vlTOPp->__Vclklast__TOP__clk_i)))) {
-        vlSymsp->TOP__test_top._sequent__TOP__test_top__3(vlSymsp);
+        vlSymsp->TOP__test_top._sequent__TOP__test_top__1(vlSymsp);
         vlTOPp->__Vm_traceActivity[1U] = 1U;
+        vlSymsp->TOP__test_top__dpram0._sequent__TOP__test_top__dpram0__1(vlSymsp);
         vlSymsp->TOP__test_top__regfile0._sequent__TOP__test_top__regfile0__2(vlSymsp);
-        vlSymsp->TOP__test_top__dpram0._sequent__TOP__test_top__dpram0__2(vlSymsp);
-        vlSymsp->TOP__test_top._sequent__TOP__test_top__4(vlSymsp);
+        vlTOPp->_sequent__TOP__1(vlSymsp);
+        vlSymsp->TOP__test_top._sequent__TOP__test_top__2(vlSymsp);
     }
-    vlSymsp->TOP__test_top._combo__TOP__test_top__6(vlSymsp);
+    vlSymsp->TOP__test_top._combo__TOP__test_top__5(vlSymsp);
     vlTOPp->__Vm_traceActivity[2U] = 1U;
-    vlSymsp->TOP__test_top__dpram0._settle__TOP__test_top__dpram0__1(vlSymsp);
     vlSymsp->TOP__test_top__regfile0._settle__TOP__test_top__regfile0__3(vlSymsp);
-    vlSymsp->TOP__test_top._combo__TOP__test_top__7(vlSymsp);
+    vlSymsp->TOP__test_top__dpram0._settle__TOP__test_top__dpram0__2(vlSymsp);
+    vlSymsp->TOP__test_top._combo__TOP__test_top__6(vlSymsp);
     // Final
     vlTOPp->__Vclklast__TOP__clk_i = vlTOPp->clk_i;
 }
@@ -101,11 +109,6 @@ VL_INLINE_OPT QData Vtest_top::_change_request_1(Vtest_top__Syms* __restrict vlS
     // Body
     // Change detection
     QData __req = false;  // Logically a bool
-    __req |= ((vlSymsp->TOP__test_top__regfile0.__PVT__rdata1_o ^ vlTOPp->__Vchglast__TOP__test_top__regfile0__rdata1_o));
-    VL_DEBUG_IF( if(__req && ((vlSymsp->TOP__test_top__regfile0.__PVT__rdata1_o ^ vlTOPp->__Vchglast__TOP__test_top__regfile0__rdata1_o))) VL_DBG_MSGF("        CHANGE: vsrc/regfile.v:19: rdata1_o\n"); );
-    // Final
-    vlTOPp->__Vchglast__TOP__test_top__regfile0__rdata1_o 
-        = vlSymsp->TOP__test_top__regfile0.__PVT__rdata1_o;
     return __req;
 }
 

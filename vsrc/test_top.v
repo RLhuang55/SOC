@@ -22,7 +22,7 @@ wire[`DATA_WIDTH-1:0] if_id_inst_o;
 
 // 連接 id 與 id_exe線
 wire[`DATA_WIDTH-1:0] id_inst_o;
-wire[`RADDR_WIDTH-1:0] id_inst_addr_o;
+wire[`ADDR_WIDTH-1:0] id_inst_addr_o;
 wire[`RDATA_WIDTH-1:0] id_op1_o;
 wire[`RDATA_WIDTH-1:0] id_op2_o;
 wire id_reg_we_o;
@@ -44,7 +44,7 @@ wire[`RDATA_WIDTH-1:0] id_exe_op2_o;
 wire id_exe_reg_we_o;
 wire[`RADDR_WIDTH-1:0] id_exe_reg_waddr_o;
 wire[`DATA_WIDTH-1:0] id_exe_inst_o;
-wire[`RADDR_WIDTH-1:0] id_exe_inst_addr_o;
+wire[`ADDR_WIDTH-1:0] id_exe_inst_addr_o;
 //exe
 wire[`RADDR_WIDTH-1:0] exe_reg_waddr_o;
 wire exe_reg_we_o;
@@ -53,7 +53,7 @@ wire exe_mem_we_o;
 wire[`ADDR_WIDTH-1:0] exe_mem_addr_o;
 wire[`DATA_WIDTH-1:0] exe_mem_data_o;
 wire[3:0] exe_mem_op_o;
-wire[`RADDR_WIDTH-1:0] exe_jump_addr_o;
+wire[`ADDR_WIDTH-1:0] exe_jump_addr_o;
 wire exe_jump_enable_o;
 wire exe_stallreq_o;
 //exe_mem
@@ -82,6 +82,7 @@ wire[`DATA_WIDTH-1:0] mem_ram_data_i;
 // from id_exe to id
 wire[`RADDR_WIDTH-1:0] id_exe_rd_o;
 wire id_exe_inst_is_load_o;
+assign halt_o = mem_halt_o;
 dpram  dpram0(
     .clk_i(clk_i),
     .rst_i(rst_i),
@@ -160,6 +161,11 @@ id id0(
     .mem_reg_wdata_i(mem_reg_wdata_o),
     .mem_reg_we_i(mem_reg_we_o),
 
+    //from mem_wb
+    .mem_wb_reg_waddr_i(mem_wb_reg_waddr_o),
+    .mem_wb_reg_wdata_i(mem_wb_reg_wdata_o),
+    .mem_wb_reg_we_i(mem_wb_reg_we_o),
+    
     //to regfile
     .reg1_raddr_o(id_reg1_addr_o),
     .reg2_raddr_o(id_reg2_addr_o),
@@ -301,7 +307,7 @@ mem mem0(
     //for test halt signal
     .halt_o(mem_halt_o)
 );
-// assign halt_o = mem_halt_o;
+
 //mem_wb
 mem_wb mem_wb0(
     .rst_i(rst_i), .clk_i(clk_i),

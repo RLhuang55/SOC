@@ -31,13 +31,6 @@ Vtest_top::~Vtest_top() {
     VL_DO_CLEAR(delete __VlSymsp, __VlSymsp = NULL);
 }
 
-void Vtest_top::_settle__TOP__1(Vtest_top__Syms* __restrict vlSymsp) {
-    VL_DEBUG_IF(VL_DBG_MSGF("+    Vtest_top::_settle__TOP__1\n"); );
-    Vtest_top* const __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
-    // Body
-    vlTOPp->halt_o = vlSymsp->TOP__test_top.halt_o;
-}
-
 void Vtest_top::_eval_initial(Vtest_top__Syms* __restrict vlSymsp) {
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vtest_top::_eval_initial\n"); );
     Vtest_top* const __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
@@ -60,15 +53,14 @@ void Vtest_top::_eval_settle(Vtest_top__Syms* __restrict vlSymsp) {
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vtest_top::_eval_settle\n"); );
     Vtest_top* const __restrict vlTOPp VL_ATTR_UNUSED = vlSymsp->TOPp;
     // Body
-    vlTOPp->_settle__TOP__1(vlSymsp);
+    vlTOPp->_sequent__TOP__1(vlSymsp);
     vlTOPp->__Vm_traceActivity[2U] = 1U;
     vlTOPp->__Vm_traceActivity[1U] = 1U;
     vlTOPp->__Vm_traceActivity[0U] = 1U;
-    vlSymsp->TOP__test_top._settle__TOP__test_top__1(vlSymsp);
-    vlSymsp->TOP__test_top__dpram0._settle__TOP__test_top__dpram0__1(vlSymsp);
-    vlSymsp->TOP__test_top._settle__TOP__test_top__2(vlSymsp);
+    vlSymsp->TOP__test_top._settle__TOP__test_top__3(vlSymsp);
+    vlSymsp->TOP__test_top__dpram0._settle__TOP__test_top__dpram0__2(vlSymsp);
     vlSymsp->TOP__test_top__regfile0._settle__TOP__test_top__regfile0__3(vlSymsp);
-    vlSymsp->TOP__test_top._settle__TOP__test_top__5(vlSymsp);
+    vlSymsp->TOP__test_top._settle__TOP__test_top__4(vlSymsp);
 }
 
 void Vtest_top::_ctor_var_reset() {
@@ -77,7 +69,6 @@ void Vtest_top::_ctor_var_reset() {
     rst_i = VL_RAND_RESET_I(1);
     clk_i = VL_RAND_RESET_I(1);
     halt_o = VL_RAND_RESET_I(1);
-    __Vchglast__TOP__test_top__regfile0__rdata1_o = VL_RAND_RESET_I(32);
     { int __Vi0=0; for (; __Vi0<3; ++__Vi0) {
             __Vm_traceActivity[__Vi0] = VL_RAND_RESET_I(1);
     }}
