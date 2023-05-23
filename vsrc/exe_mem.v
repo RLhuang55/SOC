@@ -31,7 +31,7 @@ module exe_mem(
             reg_wdata_o <= `ZERO;
             mem_addr_o <= `ZERO_REG;
             mem_data_o <= `ZERO;
-            mem_we_o <= `WRITE_DISABLE;
+            mem_we_o <= `WRITE_ENABLE;
             mem_op_o <= `MEM_NOP;
         end else begin            
             reg_waddr_o <= reg_waddr_i;

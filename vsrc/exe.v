@@ -21,7 +21,8 @@ module exe(
     output reg[`RDATA_WIDTH-1:0] reg_wdata_o,
     //to pipe_ctrl
     output reg[`RDATA_WIDTH-1:0] jump_addr_o,
-    output reg jump_enable_o
+    output reg jump_enable_o,
+    output reg stallreq_o
 );
 
     wire[6:0] opcode = inst_i[6:0];
@@ -72,7 +73,7 @@ module exe(
         .jump_addr_o(b_j_jump_addr_o)
     );
     always @(*) begin
-        if (rst_i == 1) begin
+        if (rst_i == 1 ) begin
             reg_waddr_o = `ZERO_REG;
             reg_wdata_o = `ZERO;
             reg_we_o = `WRITE_DISABLE;
@@ -163,8 +164,6 @@ module exe(
                     mem_op_o = `MEM_NOP;
                 end
                 `INST_TYPE_S, `INST_TYPE_L:begin //type s and l
-                    jump_addr_o = `ZERO;
-                    jump_enable_o = `ZERO_REG;
                     reg_waddr_o = reg_waddr_i;
                     reg_wdata_o = s_l_reg_wdata_o;
                     reg_we_o = s_l_reg_we_o;
@@ -183,6 +182,7 @@ module exe(
                     mem_op_o = `MEM_NOP;
                     jump_addr_o = b_j_jump_addr_o;
                     jump_enable_o = b_j_jump_enable_o;
+                    stallreq_o = 1'b0;
                 end
                 `INST_TYPE_B:begin //type b
                     reg_waddr_o = `ZERO_REG;
@@ -199,12 +199,13 @@ module exe(
                     reg_waddr_o = `ZERO_REG;
                     reg_wdata_o = `ZERO;
                     reg_we_o = `WRITE_DISABLE;
-                    mem_addr_o = `ZERO_REG;
+                    mem_addr_o = `ZERO;
                     mem_data_o = `ZERO;
                     mem_we_o = `WRITE_DISABLE;
                     mem_op_o = `MEM_NOP;
                     jump_addr_o = `ZERO;
                     jump_enable_o = `ZERO_REG;
+                    stallreq_o = 1'b0;
                 end
             endcase
         end //if

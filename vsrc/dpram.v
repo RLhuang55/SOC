@@ -18,7 +18,7 @@ module dpram
     output reg[`DATA_WIDTH-1:0] inst_o	
 );
     wire mem_e;
-    assign mem_e = (addr_i) ? 1'b1 : 1'b0;
+    assign mem_e = (addr_i==`ZERO) ? 0 : 1;
 
     reg[7:0] mem[0:`RAM_SIZE-1];
     wire[`RAM_ADDR_WIDTH-1:0] addr4;
@@ -29,7 +29,7 @@ module dpram
 
 
     /*------------------ data port ----------------------*/
-	always @ (posedge clk_i) begin
+	always @ (posedge clk_i) begin //store
 		if( (rst_i == 1'b0) && (we_i == `WRITE_ENABLE) ) begin
             mem[addr4] <= data_i[31:24];
             mem[addr4+1] <= data_i[23:16];
@@ -38,10 +38,10 @@ module dpram
         end
 	end
 	
-	always @ (*) begin
+	always @ (*) begin //load
 		if (rst_i == 1'b1) begin
 			data_o = `ZERO;
-	    end else if(mem_e == 1'b1) begin
+	    end else if(mem_e==1)begin
 		    data_o =  {mem[addr4],mem[addr4+1],mem[addr4+2],mem[addr4+3]};
 		// end else begin
 		// 	data_o = `ZERO;

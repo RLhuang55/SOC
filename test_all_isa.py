@@ -25,7 +25,7 @@ def main():
     # 对每一个bin文件进行测试
     errTest = [];
     for file in bin_files:
-        cmd = f"{cwd}/obj_dir/Vtest_top.exe {file} 1" 
+        cmd = f"{cwd}/obj_dir/Vtest_top {file} 1" 
         f = os.popen(cmd)
         r = f.read()
         f.close()

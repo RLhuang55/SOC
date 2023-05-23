@@ -217,7 +217,7 @@ id_exe id_exe0(
     .op2_i(id_op2_o),
     .reg_we_i(id_reg_we_o),
     .reg_waddr_i(id_reg_waddr_o),
-    .flush_jump_i(ctrl_flush_jump_o),
+    
     //to exe
     .op1_o(id_exe_op1_o),
     .op2_o(id_exe_op2_o),
@@ -227,7 +227,7 @@ id_exe id_exe0(
     .inst_addr_o(id_exe_inst_addr_o),
     //from ctrl
     .stall_i(ctrl_stall_o),
-
+    .flush_jump_i(ctrl_flush_jump_o),
     //to id
     .inst_is_load_o(id_exe_inst_is_load_o),
     .rd_o(id_exe_rd_o)
@@ -255,7 +255,8 @@ exe exe0(
     .mem_op_o(exe_mem_op_o),
     //to ctrl
     .jump_addr_o(exe_jump_addr_o),
-    .jump_enable_o(exe_jump_enable_o)
+    .jump_enable_o(exe_jump_enable_o),
+    .stallreq_o(exe_stallreq_o)
 );
 
 //exe_mem

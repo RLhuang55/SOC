@@ -12,7 +12,7 @@ PROG_S = $(wildcard ./test_src/*.S)
 all: vhdlmake
 
 obj_dir/V${TOP}.mk: ${V_SRC} ${TESTBENCH_SRC} 
-	verilator -Wall --cc --exe --build ${TESTBENCH_SRC} ${INC} ${VTOP} --trace
+	verilator -Wall --cc --exe  ${TESTBENCH_SRC} ${INC} ${VTOP} --trace
 	
 obj_dir/V${TOP}.exe : obj_dir/V${TOP}.mk
 	$(MAKE) -C obj_dir -f V$(TOP).mk

@@ -31,7 +31,7 @@ VL_MODULE(Vtest_top_dpram) {
     VL_OUT(__PVT__inst_o,31,0);
     
     // LOCAL SIGNALS
-    CData/*7:0*/ __PVT__mem[131072];
+    CData/*7:0*/ __PVT__mem[2097152];
     
     // INTERNAL VARIABLES
   private:
@@ -53,8 +53,9 @@ VL_MODULE(Vtest_top_dpram) {
     static void _sequent__TOP__test_top__dpram0__1(Vtest_top__Syms* __restrict vlSymsp);
     static void _settle__TOP__test_top__dpram0__2(Vtest_top__Syms* __restrict vlSymsp);
     void writeByte(uint32_t byte_addr, uint32_t val);
-  private:
-    static void traceInit(void* userp, VerilatedVcd* tracep, uint32_t code) VL_ATTR_COLD;
+    static void traceInit(VerilatedVcd* vcdp, void* userthis, uint32_t code);
+    static void traceFull(VerilatedVcd* vcdp, void* userthis, uint32_t code);
+    static void traceChg(VerilatedVcd* vcdp, void* userthis, uint32_t code);
 } VL_ATTR_ALIGNED(VL_CACHE_LINE_BYTES);
 
 //----------

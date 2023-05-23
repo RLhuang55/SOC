@@ -42,9 +42,9 @@ module mem(
             ram_data_o = `ZERO;
             ram_w_request_o = `WRITE_DISABLE;
         end else begin
-            reg_waddr_o = reg_waddr_i;
-            reg_we_o = reg_we_i;
-            ram_w_request_o = mem_we_i;
+            reg_waddr_o = reg_waddr_i; 
+            reg_we_o = reg_we_i;//L能寫入 S不能寫入
+            ram_w_request_o = mem_we_i;//S能寫入 L不能寫入
             ram_addr_o = mem_addr_i;
             case(mem_op_i)   //先不考慮 ram 讀取需要幾個 cycle
                 `LB: begin
@@ -122,8 +122,10 @@ module mem(
                     case (ram_addr_offset)
                     2'b00: begin
                         ram_data_o = {ram_data_i[31:16],mem_data_i[15:0]};
+                        // ram_data_o = {mem_data_i[31:16], ram_data_i[15:0]};
                     end
                     default: begin
+                        // ram_data_o = {ram_data_i[31:16],mem_data_i[15:0]};
                         ram_data_o = {mem_data_i[31:16], ram_data_i[15:0]};
                     end
                     endcase

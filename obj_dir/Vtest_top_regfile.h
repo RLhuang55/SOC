@@ -57,8 +57,9 @@ VL_MODULE(Vtest_top_regfile) {
     static void _sequent__TOP__test_top__regfile0__2(Vtest_top__Syms* __restrict vlSymsp);
     static void _settle__TOP__test_top__regfile0__3(Vtest_top__Syms* __restrict vlSymsp);
     void readRegister(uint32_t raddr, uint32_t& val);
-  private:
-    static void traceInit(void* userp, VerilatedVcd* tracep, uint32_t code) VL_ATTR_COLD;
+    static void traceInit(VerilatedVcd* vcdp, void* userthis, uint32_t code);
+    static void traceFull(VerilatedVcd* vcdp, void* userthis, uint32_t code);
+    static void traceChg(VerilatedVcd* vcdp, void* userthis, uint32_t code);
 } VL_ATTR_ALIGNED(VL_CACHE_LINE_BYTES);
 
 //----------

@@ -5,7 +5,6 @@
 `define RDATA_WIDTH  32
 `define MEM_SIZE    32'h200000
 `define MEM_OFFSET  32'h0
-`define PART_ADDR_WIDTH 21
 `define HALT_ADDR   32'h200008 
 `define ZERO        32'h0
 `define ZERO_REG    0
@@ -67,7 +66,7 @@
 `define LHU 4'b1101
 `define MEM_NOP 4'b0000
 `define RAM_ADDR_WIDTH 32
-`define RAM_SIZE 32'h20000
+`define RAM_SIZE 32'h200000
 `define STOP 1
 `define NOSTOP 0
 // J type inst

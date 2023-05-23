@@ -75,7 +75,8 @@ module id(
     wire[4:0] rs2 = inst_i[24:20];
     wire is_load_hazard;
     assign is_load_hazard = (pre_inst_is_load_i==1'b1 && (rs1 == exe_rd_i || rs2==exe_rd_i));
-    
+    reg[1:0]come_which1;
+    reg[1:0]come_which2;
     id_type_i inst_type_i(
         .inst_i(inst_i),
         .reg1_rdata_i(reg1_rdata_i),
@@ -122,7 +123,6 @@ module id(
             op1_o_final = `ZERO;
             op2_o_final = `ZERO;
         end else begin
-            inst_addr_o = `ZERO_REG;
             case (opcode)
                 `INST_TYPE_I:begin
                     inst_o = inst_i;
@@ -203,7 +203,7 @@ module id(
                     reg2_raddr_o = `ZERO_REG;
                     reg1_re_o = `READ_DISABLE;
                     reg2_re_o = `READ_DISABLE;
-                    op1_o_final = inst_addr_i;
+                    op1_o_final = `ZERO;
                     op2_o_final = {{12{inst_i[31]}},inst_i[19:12],inst_i[20],inst_i[30:21],1'b0};
                     reg_we_o = `WRITE_ENABLE;
                     reg_waddr_o = rd;
@@ -215,7 +215,7 @@ module id(
                     reg2_raddr_o = `ZERO_REG;
                     reg1_re_o = `READ_ENABLE;
                     reg2_re_o = `READ_DISABLE;
-                    op1_o_final = reg1_rdata_i;
+                    op1_o_final = `ZERO;
                     op2_o_final = {{20{inst_i[31]}},inst_i[31:20]};
                     reg_we_o = `WRITE_ENABLE;
                     reg_waddr_o = rd;
@@ -242,38 +242,47 @@ module id(
                     reg_waddr_o = `ZERO_REG;
                     op1_o_final = `ZERO;
                     op2_o_final = `ZERO;
+                    op1_o = `ZERO;
+                    op2_o = `ZERO;
                 end//default
             endcase
         end//if
     end//always
-
     //determine op1_o
 	always @(*) begin
-        if (reg1_re_o == `READ_ENABLE && exe_reg_we_i == `WRITE_ENABLE && exe_reg_waddr_i == reg1_raddr_o) begin
+        if (reg1_re_o == `READ_ENABLE && exe_reg_we_i == `WRITE_ENABLE && exe_reg_waddr_i == reg1_raddr_o && inst_i != `NOP) begin
             op1_o = exe_reg_wdata_i;
-        end else if(reg1_re_o == `READ_ENABLE && mem_reg_we_i == `WRITE_ENABLE && mem_reg_waddr_i == reg1_raddr_o  ) begin
+            come_which1 = 2'b00;
+        end else if(reg1_re_o == `READ_ENABLE && mem_reg_we_i == `WRITE_ENABLE && mem_reg_waddr_i == reg1_raddr_o  && inst_i != `NOP ) begin
             op1_o = mem_reg_wdata_i;
-        end else if(reg1_re_o == `READ_ENABLE && mem_wb_reg_we_i == `WRITE_ENABLE && mem_wb_reg_waddr_i == reg1_raddr_o && mem_wb_reg_waddr_i != 5'b00000) begin
+            come_which1 = 2'b01;
+        end else if(reg1_re_o == `READ_ENABLE && mem_wb_reg_we_i == `WRITE_ENABLE && mem_wb_reg_waddr_i == reg1_raddr_o && mem_wb_reg_waddr_i != 5'b00000 && inst_i != `NOP) begin
             op1_o = mem_wb_reg_wdata_i;
-        end else if(rst_i == 1) begin
-            op1_o = `ZERO;
+            come_which1 = 2'b10;
+        // end else if(rst_i == 1) begin
+        //     op1_o = `ZERO;
         end else begin
     	    op1_o = op1_o_final;
+            come_which1 = 2'b11;
         end
 	end//always
 
 	//determine op2_o
 	always @(*) begin
-        if (reg2_re_o == `READ_ENABLE && exe_reg_we_i == `WRITE_ENABLE && exe_reg_waddr_i == reg2_raddr_o) begin
+        if (reg2_re_o == `READ_ENABLE && exe_reg_we_i == `WRITE_ENABLE && exe_reg_waddr_i == reg2_raddr_o && inst_i != `NOP) begin
             op2_o = exe_reg_wdata_i;
-        end else if(reg2_re_o == `READ_ENABLE && mem_reg_we_i == `WRITE_ENABLE && mem_reg_waddr_i == reg2_raddr_o ) begin
+            come_which2 = 2'b00;
+        end else if(reg2_re_o == `READ_ENABLE && mem_reg_we_i == `WRITE_ENABLE && mem_reg_waddr_i == reg2_raddr_o && inst_i != `NOP) begin
             op2_o = mem_reg_wdata_i;
-        end else if(reg2_re_o == `READ_ENABLE && mem_wb_reg_we_i == `WRITE_ENABLE && mem_wb_reg_waddr_i == reg2_raddr_o && mem_wb_reg_waddr_i != 5'b00000) begin
+            come_which2 = 2'b01;
+        end else if(reg2_re_o == `READ_ENABLE && mem_wb_reg_we_i == `WRITE_ENABLE && mem_wb_reg_waddr_i == reg2_raddr_o && mem_wb_reg_waddr_i != 5'b00000 && inst_i != `NOP) begin
             op2_o = mem_wb_reg_wdata_i;
-        end else if(rst_i == 1) begin
-            op2_o = `ZERO;
+            come_which2 = 2'b10;
+        // end else if(rst_i == 1) begin
+        //     op2_o = `ZERO;
         end else begin
     	    op2_o = op2_o_final;
+            come_which2 = 2'b11;
         end
 	end//always
 endmodule

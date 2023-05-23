@@ -26,8 +26,6 @@ module id_exe(
 );
     wire[6:0] opcode = inst_i[6:0];
     always @(posedge clk_i) begin
-        inst_is_load_o <= (opcode == `INST_TYPE_L);
-        rd_o <= inst_i[11:7];
         if (rst_i == 1) begin
             inst_o   <=  `NOP;
             inst_addr_o <= `ZERO_REG;
@@ -46,7 +44,7 @@ module id_exe(
             rd_o <= rd_o;
         end else if(stall_i[2] == `STOP && stall_i[3] == `NOSTOP) begin
             inst_o   <=  `NOP;
-            inst_addr_o <= `ZERO_REG;
+            inst_addr_o <= `ZERO;
             op1_o     <= `ZERO;
             op2_o     <= `ZERO;
             reg_we_o  <= `WRITE_DISABLE;
@@ -69,8 +67,8 @@ module id_exe(
             reg_we_o <= reg_we_i;
             reg_waddr_o <= reg_waddr_i;
             inst_addr_o <= inst_addr_i;
-            inst_is_load_o <= inst_is_load_o;
-            rd_o <= rd_o;
+            inst_is_load_o <= (opcode == `INST_TYPE_L);
+            rd_o <= inst_i[11:7];
         end//if
     end //always
 endmodule

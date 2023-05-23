@@ -37,7 +37,7 @@ VL_MODULE(Vtest_top) {
     // LOCAL VARIABLES
     // Internals; generally not touched by application code
     CData/*0:0*/ __Vclklast__TOP__clk_i;
-    CData/*0:0*/ __Vm_traceActivity[3];
+    IData/*31:0*/ __Vm_traceActivity;
     
     // INTERNAL VARIABLES
     // Internals; generally not touched by application code
@@ -58,12 +58,7 @@ VL_MODULE(Vtest_top) {
     
     // API METHODS
     /// Evaluate the model.  Application must call when inputs change.
-    void eval() { eval_step(); }
-    /// Evaluate when calling multiple units/models per time step.
-    void eval_step();
-    /// Evaluate at end of a timestep for tracing, when using eval_step().
-    /// Application must call after all eval() and before time changes.
-    void eval_end_step() {}
+    void eval();
     /// Simulation complete, run final blocks.  Application must call on completion.
     void final();
     
@@ -74,7 +69,6 @@ VL_MODULE(Vtest_top) {
     void __Vconfigure(Vtest_top__Syms* symsp, bool first);
   private:
     static QData _change_request(Vtest_top__Syms* __restrict vlSymsp);
-    static QData _change_request_1(Vtest_top__Syms* __restrict vlSymsp);
     void _ctor_var_reset() VL_ATTR_COLD;
   public:
     static void _eval(Vtest_top__Syms* __restrict vlSymsp);
@@ -86,16 +80,21 @@ VL_MODULE(Vtest_top) {
     static void _eval_initial(Vtest_top__Syms* __restrict vlSymsp) VL_ATTR_COLD;
     static void _eval_settle(Vtest_top__Syms* __restrict vlSymsp) VL_ATTR_COLD;
     static void _sequent__TOP__1(Vtest_top__Syms* __restrict vlSymsp);
-  private:
-    static void traceChgSub0(void* userp, VerilatedVcd* tracep);
-    static void traceChgTop0(void* userp, VerilatedVcd* tracep);
-    static void traceCleanup(void* userp, VerilatedVcd* /*unused*/);
-    static void traceFullSub0(void* userp, VerilatedVcd* tracep) VL_ATTR_COLD;
-    static void traceFullTop0(void* userp, VerilatedVcd* tracep) VL_ATTR_COLD;
-    static void traceInitSub0(void* userp, VerilatedVcd* tracep) VL_ATTR_COLD;
-    static void traceInitTop(void* userp, VerilatedVcd* tracep) VL_ATTR_COLD;
-    void traceRegister(VerilatedVcd* tracep) VL_ATTR_COLD;
-    static void traceInit(void* userp, VerilatedVcd* tracep, uint32_t code) VL_ATTR_COLD;
+    static void traceChgThis(Vtest_top__Syms* __restrict vlSymsp, VerilatedVcd* vcdp, uint32_t code);
+    static void traceChgThis__2(Vtest_top__Syms* __restrict vlSymsp, VerilatedVcd* vcdp, uint32_t code);
+    static void traceChgThis__3(Vtest_top__Syms* __restrict vlSymsp, VerilatedVcd* vcdp, uint32_t code);
+    static void traceChgThis__4(Vtest_top__Syms* __restrict vlSymsp, VerilatedVcd* vcdp, uint32_t code);
+    static void traceChgThis__5(Vtest_top__Syms* __restrict vlSymsp, VerilatedVcd* vcdp, uint32_t code);
+    static void traceChgThis__6(Vtest_top__Syms* __restrict vlSymsp, VerilatedVcd* vcdp, uint32_t code);
+    static void traceChgThis__7(Vtest_top__Syms* __restrict vlSymsp, VerilatedVcd* vcdp, uint32_t code);
+    static void traceChgThis__8(Vtest_top__Syms* __restrict vlSymsp, VerilatedVcd* vcdp, uint32_t code);
+    static void traceFullThis(Vtest_top__Syms* __restrict vlSymsp, VerilatedVcd* vcdp, uint32_t code) VL_ATTR_COLD;
+    static void traceFullThis__1(Vtest_top__Syms* __restrict vlSymsp, VerilatedVcd* vcdp, uint32_t code) VL_ATTR_COLD;
+    static void traceInitThis(Vtest_top__Syms* __restrict vlSymsp, VerilatedVcd* vcdp, uint32_t code) VL_ATTR_COLD;
+    static void traceInitThis__1(Vtest_top__Syms* __restrict vlSymsp, VerilatedVcd* vcdp, uint32_t code) VL_ATTR_COLD;
+    static void traceInit(VerilatedVcd* vcdp, void* userthis, uint32_t code);
+    static void traceFull(VerilatedVcd* vcdp, void* userthis, uint32_t code);
+    static void traceChg(VerilatedVcd* vcdp, void* userthis, uint32_t code);
 } VL_ATTR_ALIGNED(VL_CACHE_LINE_BYTES);
 
 //----------
