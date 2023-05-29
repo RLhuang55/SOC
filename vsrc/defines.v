@@ -65,7 +65,7 @@
 `define LBU 4'b1100
 `define LHU 4'b1101
 `define MEM_NOP 4'b0000
-`define RAM_ADDR_WIDTH 32
+`define RAM_ADDR_WIDTH  32
 `define RAM_SIZE 32'h200000
 `define STOP 1
 `define NOSTOP 0

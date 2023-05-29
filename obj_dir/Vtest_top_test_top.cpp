@@ -2066,15 +2066,7 @@ void Vtest_top_test_top::_settle__TOP__test_top__3(Vtest_top__Syms* __restrict v
                                                      ? 0U
                                                      : 0U)
                                                     : 0U)
-                                                   : 
-                                                  ((2U 
-                                                    & vlSymsp->TOP__test_top.__PVT__id_exe_inst_o)
-                                                    ? 
-                                                   ((1U 
-                                                     & vlSymsp->TOP__test_top.__PVT__id_exe_inst_o)
-                                                     ? 0U
-                                                     : 0U)
-                                                    : 0U)))
+                                                   : 0U))
                                               : ((8U 
                                                   & vlSymsp->TOP__test_top.__PVT__id_exe_inst_o)
                                                   ? 0U
@@ -2867,7 +2859,8 @@ void Vtest_top_test_top::_settle__TOP__test_top__4(Vtest_top__Syms* __restrict v
                                         | (0xffffU 
                                            & vlSymsp->TOP__test_top.__PVT__exe_mem_mem_data_o))
                                      : ((0xffff0000U 
-                                         & vlSymsp->TOP__test_top.__PVT__exe_mem_mem_data_o) 
+                                         & (vlSymsp->TOP__test_top.__PVT__exe_mem_mem_data_o 
+                                            << 0x10U)) 
                                         | (0xffffU 
                                            & vlSymsp->TOP__test_top__dpram0.__PVT__data_o))))
                              : ((1U & (IData)(vlSymsp->TOP__test_top.__PVT__exe_mem_mem_op_o))
@@ -3012,7 +3005,15 @@ void Vtest_top_test_top::_settle__TOP__test_top__4(Vtest_top__Syms* __restrict v
                                                     : 
                                                    ((4U 
                                                      & vlSymsp->TOP__test_top.__PVT__if_id_inst_o)
-                                                     ? 0U
+                                                     ? 
+                                                    ((2U 
+                                                      & vlSymsp->TOP__test_top.__PVT__if_id_inst_o)
+                                                      ? 
+                                                     ((1U 
+                                                       & vlSymsp->TOP__test_top.__PVT__if_id_inst_o)
+                                                       ? vlSymsp->TOP__test_top__regfile0.__PVT__rdata1_o
+                                                       : 0U)
+                                                      : 0U)
                                                      : 
                                                     ((2U 
                                                       & vlSymsp->TOP__test_top.__PVT__if_id_inst_o)
@@ -5165,15 +5166,7 @@ VL_INLINE_OPT void Vtest_top_test_top::_combo__TOP__test_top__5(Vtest_top__Syms*
                                                      ? 0U
                                                      : 0U)
                                                     : 0U)
-                                                   : 
-                                                  ((2U 
-                                                    & vlSymsp->TOP__test_top.__PVT__id_exe_inst_o)
-                                                    ? 
-                                                   ((1U 
-                                                     & vlSymsp->TOP__test_top.__PVT__id_exe_inst_o)
-                                                     ? 0U
-                                                     : 0U)
-                                                    : 0U)))
+                                                   : 0U))
                                               : ((8U 
                                                   & vlSymsp->TOP__test_top.__PVT__id_exe_inst_o)
                                                   ? 0U
@@ -5396,7 +5389,15 @@ VL_INLINE_OPT void Vtest_top_test_top::_combo__TOP__test_top__6(Vtest_top__Syms*
                                                     : 
                                                    ((4U 
                                                      & vlSymsp->TOP__test_top.__PVT__if_id_inst_o)
-                                                     ? 0U
+                                                     ? 
+                                                    ((2U 
+                                                      & vlSymsp->TOP__test_top.__PVT__if_id_inst_o)
+                                                      ? 
+                                                     ((1U 
+                                                       & vlSymsp->TOP__test_top.__PVT__if_id_inst_o)
+                                                       ? vlSymsp->TOP__test_top__regfile0.__PVT__rdata1_o
+                                                       : 0U)
+                                                      : 0U)
                                                      : 
                                                     ((2U 
                                                       & vlSymsp->TOP__test_top.__PVT__if_id_inst_o)
@@ -5669,7 +5670,8 @@ VL_INLINE_OPT void Vtest_top_test_top::_combo__TOP__test_top__6(Vtest_top__Syms*
                                         | (0xffffU 
                                            & vlSymsp->TOP__test_top.__PVT__exe_mem_mem_data_o))
                                      : ((0xffff0000U 
-                                         & vlSymsp->TOP__test_top.__PVT__exe_mem_mem_data_o) 
+                                         & (vlSymsp->TOP__test_top.__PVT__exe_mem_mem_data_o 
+                                            << 0x10U)) 
                                         | (0xffffU 
                                            & vlSymsp->TOP__test_top__dpram0.__PVT__data_o))))
                              : ((1U & (IData)(vlSymsp->TOP__test_top.__PVT__exe_mem_mem_op_o))

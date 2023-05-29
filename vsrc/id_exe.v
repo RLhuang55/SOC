@@ -28,7 +28,7 @@ module id_exe(
     always @(posedge clk_i) begin
         if (rst_i == 1) begin
             inst_o   <=  `NOP;
-            inst_addr_o <= `ZERO_REG;
+            inst_addr_o <= `ZERO;
             op1_o     <= `ZERO;
             op2_o     <= `ZERO;
             reg_we_o  <= `WRITE_DISABLE;

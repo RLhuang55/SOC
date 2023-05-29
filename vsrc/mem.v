@@ -122,11 +122,9 @@ module mem(
                     case (ram_addr_offset)
                     2'b00: begin
                         ram_data_o = {ram_data_i[31:16],mem_data_i[15:0]};
-                        // ram_data_o = {mem_data_i[31:16], ram_data_i[15:0]};
                     end
-                    default: begin
-                        // ram_data_o = {ram_data_i[31:16],mem_data_i[15:0]};
-                        ram_data_o = {mem_data_i[31:16], ram_data_i[15:0]};
+                    default:begin
+                        ram_data_o = {mem_data_i[15:0], ram_data_i[15:0]};
                     end
                     endcase
                 end

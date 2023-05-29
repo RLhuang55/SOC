@@ -77,7 +77,7 @@ module exe(
             reg_waddr_o = `ZERO_REG;
             reg_wdata_o = `ZERO;
             reg_we_o = `WRITE_DISABLE;
-            mem_addr_o = `ZERO_REG;
+            mem_addr_o = `ZERO;
             mem_data_o = `ZERO;
             mem_we_o = `WRITE_DISABLE;
             mem_op_o = `MEM_NOP;
@@ -143,11 +143,11 @@ module exe(
                 end
                 `INST_TYPE_R_M:begin //Type_r and M
                     jump_addr_o = `ZERO;
-                    jump_enable_o = `ZERO_REG;
+                    jump_enable_o = 1'b0;
                     reg_waddr_o = reg_waddr_i;
                     reg_wdata_o = r_reg_wdata_o;
                     reg_we_o = r_reg_we_o;
-                    mem_addr_o = `ZERO_REG;
+                    mem_addr_o = `ZERO;
                     mem_data_o = `ZERO;
                     mem_we_o = `WRITE_DISABLE;
                     mem_op_o = `MEM_NOP;
